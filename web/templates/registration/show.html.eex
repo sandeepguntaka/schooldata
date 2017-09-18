@@ -1,0 +1,101 @@
+<div class="container">
+  <h2 class="header"><%= @user.name %>&nbsp;
+      <a href = "/profile/<%= @user.id %>/edit" class="btn btn-floating btn-small"><i class="material-icons">edit</i></a>
+  </h2>
+
+    <div class="row">
+        <div class="col s4">
+             <image class="responsive-img" src="<%= static_path(@conn, "/images/sample-profile.png") %>" /></a>
+        </div>
+ 
+        <div class="col s7">
+           <div class="row profile-content">
+              <div class="card z-depth-3">
+                 <ul class="collection">
+                   <li class="collection-item"><b>Student Name : </b> <%= @user.name %></li>
+                   <li class="collection-item"><b>Parents : </b><%= @profile.father_name %> / <%= @profile.mother_name %></li>
+                   <li class="collection-item"><b>Admission No : </b><%= @profile.roll_number %></li>
+                   <li class="collection-item"><b>Roll No : </b><%= @profile.roll_number %></li>
+                   <li class="collection-item"><b>Class/Section : </b><%= @profile.class_id %> / <%= @profile.section_id %></li>
+                   <li class="collection-item"><b>Medium : </b><%= @profile.roll_number %></li>
+                   <li class="collection-item"><b>Blood Group : </b> B+ </li>
+                   <li class="collection-item"><b>Mother Tounge : </b> Telugu </li>
+                   <li class="collection-item"><b>AAdhar Card No : </b> 1234-4565-6789  </li>
+                   <li class="collection-item"><b>Date Of Birth : </b> <%= Enum.at(String.split(to_string(@profile.date_of_birth)), 0) %> </li>
+                   <li class="collection-item"><b>Joining Date : </b><%= Enum.at(String.split(to_string(@profile.joining_date)), 0) %></li>
+                   <li class="collection-item"><b>Address : </b><%= @profile.address %></li>
+                   <li class="collection-item"><b>Mobile : </b> <%= @profile.mobile %> </li>
+                </ul>
+              </div>
+            
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+      <table>
+         <thead>
+            <tr>
+               <th>Month</th>
+               <th>June</th>
+               <th>July</th>
+               <th>Aug</th>
+               <th>Sept</th>
+               <th>Nov</th>
+               <th>Dec</th>
+               <th>Jan</th>
+               <th>Feb</th>
+               <th>March</th>
+               <th>April</th>
+            </tr>
+         </thead>
+         <tbody>
+            <tr>
+               <td><b>Total Working Days</b></td>
+               <td>25</td>
+               <td>25</td>
+               <td>24</td>
+               <td>24</td>
+               <td>22</td>
+               <td>26</td>
+               <td>20</td>
+               <td>20</td>
+               <td>20</td>
+               <td>15</td>
+            </tr>
+            <tr>
+               <td><b>Present Days</b></td>
+               <td>25</td>
+               <td>25</td>
+               <td>24</td>
+               <td>24</td>
+               <td>22</td>
+               <td>26</td>
+               <td>20</td>
+               <td>20</td>
+               <td>20</td>
+               <td>15</td>
+            </tr>
+
+         </tbody>
+      </table>
+    </div>
+     <div class="row">
+
+      <div class="col s4">
+          <h5>Best Rank In Class</h5>        
+          <p>3rd Rank in Quaterly Exams</p>
+      </div>
+      <div class="col s4">
+         <h5>Awards/Badges</h5>
+         <p>1st Prize Winner of inter school Compitions</p>
+         <p>3st Prize Winner of inter school Quiz.</p>
+      </div>
+      <div class="col s4">
+        <h5>Attendence</h5>
+        <p>Position in class is 2 with attendence of 30 of 40 days.</p>
+      </div>
+
+    </div>
+</div>

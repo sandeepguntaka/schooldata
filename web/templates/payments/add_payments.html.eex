@@ -1,0 +1,131 @@
+<br/><br/>
+<div class="row">
+
+<div class="col s2">
+    <ul class="collection">
+          <%  menu_items = side_menu(@conn, assigns, :add_payments)   %>
+          <%= for { _ , item} <- menu_items do %>
+            <li class = "collection-item <%= item[:active] %>"><a href="<%= item.path %>"><%= item.title %></a> </li>
+          <% end %>
+    </ul>
+  </div>
+
+  <div class="col s10">
+   <h5>Add New Payment</h5>
+ 
+   
+  <%= form_for @changeset, payments_path(@conn, :create), [class: "add-payments-form"], fn f -> %>
+   <div class="row">
+   <%= if f.errors != [] do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below:</p>
+    </div>
+  <% end %>
+      <div class = 'row'>
+        <div class="col s5">
+           <label for="name">Academic Year</label>
+            <select name="acadamic_year" class="form-control">
+               <option value="0">---Select---</option>
+               <option value="2017-18" selected>2017-18</option>
+               <option value="2018-19">2018-19</option>
+               <option value="2019-20">2019-20</option>
+            </select>
+        </div>
+      </div>
+
+       <div class = 'row'>
+           <div class="col s4">
+             <label for="name">Class</label>
+             <% classes = Helper.get_classes %>
+             <select name="class_id" class="form-control">
+                      <option value="0">---Select Class---</option>
+                       <%= for class <- classes do %> 
+                              <option value="<%= class.id %>" ><%= class.name %></option>
+                       <% end %>
+              </select>
+          </div>
+
+          <div class="col s4">
+             <label for="name">Student ID</label>
+             <select name="user_id" class="form-control student_id">
+                <option value="0">---Select Class---</option>
+             </select>
+          </div>
+
+          <div class="col s4">
+             <label for="name">Student Name</label>
+             <select name="full_name" class="form-control student_name">
+                <option value="0">---Select Class---</option>
+             </select>
+          </div>
+
+
+        </div>
+  
+        <% payments = Helper.get_payment_types %>
+       <div class = 'row card' >
+             <table class = "payment-types">
+               <thead>
+                 <tr><th>Fee Type</th><th>Amount</th><th>Actions</th></tr>
+               </thead>
+               <tbody>
+                 <tr>
+                   <td>
+                       <select name="payment_id[1]" class="form-control payment-type">
+                         <option value="0">---Select Class---</option>
+                          <%= for payment <- payments do %> 
+                              <option value="<%= payment.id %>" ><%= payment.payment_name %></option>
+                          <% end %>
+                       </select>
+                   </td>
+                     
+                   <td>
+                     <input type="text" class="amount" name="amount[1]" placeholder="Amount" value='' />
+                    </td>
+
+                   <td >
+                     <a class="hidden delete-row"><i class="material-icons">delete</i></a>
+                    </td>
+
+                 </tr>
+               </tbody>
+             </table>
+
+           <button class="row col s2  payment_add_more btn btn-small">Add more</button>
+      
+        </div>
+
+
+        <div class = 'row'>
+           <div class="col s5">
+              <label>Payment Mode</label>
+               <select name="payment_mode" class="form-control">
+                  <option value="0">-- Payment Mode --</option>
+                  <option value="cash">Cash</option>
+                  <option value="card">Card</option>
+                  <option value="check">Check</option>
+               </select>
+           </div>
+        </div>
+
+
+        <div class = 'row'>
+           <div class="col s5">
+              <label>Comments</label>
+              <input type="text" class="comment" name="comment" placeholder="Comment / Check or Card Number" value='' />
+           </div>
+        </div>
+
+     
+
+        <div class="row">  
+          <div class="col s6">
+             <%= submit "Save", class: "btn btn-primary" %>
+           </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Schooldata!</title>
+    <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.1/css/materialize.min.css">
+  </head>
+
+  <body>
+
+<div class="navbar-fixed school-fixed-header">
+  <nav class="school-navigation">
+    <div class="nav-wrapper container">
+      <ul class="right hide-on-med-and-down">
+        <%= if @current_user do %>
+         <li>Welcome  <%= @current_user.username %>!</li>
+         <li><%= link "Sign out", to: session_path(@conn, :delete, @current_user), method: "delete" %> </li>
+        <% else %>
+  	     <li><%= link "Register", to: registration_path(@conn, :new) %></li>
+         <li><%= link "Sign in", to: session_path(@conn, :new) %></li>
+        <% end %>
+      </ul>
+    </div>
+      
+  </nav>
+</div>
+
+ <nav class="schooldata-navigation">
+    <div class="nav-wrapper">
+      <div class ="container">
+      <a href="/" class="brand-logo">
+        <image class="logo"src="<%= static_path(@conn, "/images/School_Logo.jpg") %>" /></a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="/">Home</a></li>
+         <%= if @current_user do %>
+        <li><%= link "Profile", to: registration_path(@conn, :profile, @current_user) %></li>
+        <li><%= link "Results", to: results_path(@conn, :index) %></li>
+        <li><%= link "Attendence", to: attendence_path(@conn, :index) %></li>
+        <li><%= link "Home Work", to: homework_path(@conn, :index) %></li>
+        <li><%= link "Complaints Board", to: complaints_path(@conn, :index) %></li>
+        <li><%= link "Payments", to: payments_path(@conn, :index) %></li>
+        <% end %>
+        
+      </ul>
+    </div>
+    </div>
+  </nav>
+
+<div class ="container">
+  <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+  <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+</div>
+
+  <main role="main">
+  <%= render @view_module, @view_template, assigns %>
+  </main>
+
+  
+  <footer class="page-footer orange">
+    <div class="container">
+       <div class="row">
+           <div class="col s12">
+             <h5 class="white-text">School Info</h5>
+             <p class="grey-text text-lighten-4">Address: </p>
+           </div>
+        </div>
+    </div>
+    
+     <div class="footer-copyright">
+       <div class="container">
+        @Schooldata 
+       </div>
+     </div>
+  </footer>
+
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+  </body>
+</html>

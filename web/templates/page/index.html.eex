@@ -1,0 +1,68 @@
+
+
+ <div class="carousel carousel-slider">
+    <a class="carousel-item" href="#one!">
+        <img src="<%= static_path(@conn, "/images/School-2.jpg") %>">
+    </a>
+    <a class="carousel-item" href="#two!">
+        <img src="<%= static_path(@conn, "/images/School-5.jpg") %>">
+    </a>
+    <a class="carousel-item" href="#three!">
+        <img src="<%= static_path(@conn, "/images/School-3.jpg") %>">
+    </a>
+    <a class="carousel-item" href="#four!">
+        <img src="<%= static_path(@conn, "/images/School-4.png") %>">
+    </a>
+  </div>
+
+<div class="section no-pad-bot" id="index-banner">
+
+    <div class="container">
+      <h4 class="center orange-text">Sri Vidya Vihar High School</h4>
+      <div class="row center">
+        <h5 class="col s12 light">Initial step towards the students info Digitilization.</h5>
+      </div>
+ 
+
+
+    </div>
+  </div>
+
+
+  <div class="container">
+
+    <div class="section">
+
+      <!--   Icon Section   -->
+      <div class="row">
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center light-blue-text"><i class="material-icons">flash_on</i></h2>
+            <h5 class="center">Director Message</h5>
+
+            <p class="light">We did most of the heavy lifting for you to provide a default stylings that incorporate our custom components. Additionally, we refined animations and transitions to provide a smoother experience for developers.</p>
+          </div>
+        </div>
+
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center light-blue-text"><i class="material-icons">group</i></h2>
+            <h5 class="center">About Faculity</h5>
+
+            <p class="light">By utilizing elements and principles of Material Design, we were able to create a framework that incorporates components and animations that provide more feedback to users. Additionally, a single underlying responsive system across all platforms allow for a more unified user experience.</p>
+          </div>
+        </div>
+
+        <div class="col s12 m4">
+          <div class="icon-block">
+            <h2 class="center light-blue-text"><i class="material-icons">group</i></h2>
+            <h5 class="center">About Students</h5>
+
+            <p class="light">We have provided detailed documentation as well as specific code examples to help new users get started. We are also always open to feedback and can answer any questions a user may have about Materialize.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <br><br>
+  </div>

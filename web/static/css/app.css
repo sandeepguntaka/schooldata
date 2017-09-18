@@ -1,0 +1,135 @@
+/* This file is for your main application css. */
+.header {
+    border-bottom: none;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+.icon-block {
+    padding: 0 15px;
+}
+.icon-block .material-icons {
+      font-size: inherit;
+}
+.help-block {
+    color:red;
+    text-transform: capitalize;
+ } 
+ 
+ .school-navigation{
+    height: 30px;
+    line-height: 27px;
+    color: #FFF;
+    background-color: #09232f;
+    font-family: robotoregular;
+    font-size: 14px;
+    padding-bottom: 7px;font-weight: bold;
+    text-transform: capitalize;
+    z-index: 6;
+ }
+ 
+ .school-fixed-header{
+    height: 30px !important;
+    line-height: 27px; 
+ }
+ 
+ .school-header {
+    background-color: #043952;    
+ }
+
+ .school-header,
+ .school-header .brand-logo,
+ .school-header li,
+ .school-header li a {
+    color: #333335;
+}
+ 
+ .logo {
+     width:70px;
+     height:70px;
+ }
+
+ .schooldata-navigation {
+    height: 75px;
+    padding-top: 2px;
+    color: #333335;
+    background-color: #00283a;
+}
+
+
+ .input-field select {
+    width: auto !important;
+    height: auto !important;
+    opacity: unset !important;
+    pointer-events: inherit !important;
+    position: relative !important;
+    display: inline !important;
+ }
+ #user_profile_photo {
+    margin-top: 9%;
+    padding-bottom: 9%;
+    width: 50%;
+ }
+
+ .carousel {
+     height: 350px !important;
+ }
+
+.rank-display {
+ padding-bottom: 15%;
+}
+
+.rank-hash{
+    font-size: 40px;
+    margin-top: 42px;
+}
+.rank{
+    font-size: 80px;
+}
+.rank-tag{
+    font-size: 20px;
+}
+
+.collection .collection-item.active{
+    background-color: rgba(0, 0, 166, 0.8) !important;
+}
+.collection .collection-item.active a {
+    color: white !important;
+}
+
+.add-payments-form input:not([type]), 
+.add-payments-form input[type=text]:not(.browser-default),
+.add-payments-form input[type=password]:not(.browser-default), 
+.add-payments-form input[type=email]:not(.browser-default), 
+.add-payments-form input[type=url]:not(.browser-default), 
+.add-payments-form input[type=time]:not(.browser-default), 
+.add-payments-form input[type=date]:not(.browser-default), 
+.add-payments-form input[type=datetime]:not(.browser-default),
+.add-payments-form input[type=datetime-local]:not(.browser-default), 
+.add-payments-form input[type=tel]:not(.browser-default), 
+.add-payments-form input[type=number]:not(.browser-default), 
+.add-payments-form input[type=search]:not(.browser-default), 
+.add-payments-form textarea.materialize-textarea  {
+    border: 1px solid rgb(208, 208, 208) !important;
+    height: 2.2rem !important;
+    padding: 0 0 0 5px !important;
+}
+.add-payments-form td {
+ padding: 0px 5px 2px 5px !important;
+}
+.add-payments-form thead {
+    border-bottom: none !important;
+}
+.payment-types input {
+    margin-top: 20px !important;
+}
+.delete-row{
+    cursor: pointer;
+}

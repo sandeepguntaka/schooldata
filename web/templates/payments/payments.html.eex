@@ -1,0 +1,102 @@
+<br/><br/>
+
+<div class="row">
+  <div class="col s2">
+    <ul class="collection">
+          <%  menu_items = side_menu(@conn, assigns, :view_all_payments)   %>
+          <%= for { _ , item} <- menu_items do %>
+            <li class = "collection-item <%= item[:active] %>"><a href="<%= item.path %>"><%= item.title %></a> </li>
+          <% end %>
+    </ul>
+  </div>
+       
+  <div class="col s5">
+      <div class="row">
+        <div class="col s12">              
+               <script src="https://code.highcharts.com/highcharts.js"></script>
+               <script src="https://code.highcharts.com/modules/exporting.js"></script>
+               <div id="container" style=" height: 400px; margin: 0 auto"></div>
+               
+               <script>
+                  Highcharts.chart('container', {
+                     chart: {type: 'column'},
+                     title: {text: 'Overall Payments'},
+                     xAxis: {categories: ['10th', '9th', '8th', '7th', '6th','5th', '4th', '3rd', '2nd', '1st']},
+                     yAxis: { min: 0,
+                              title: {text: 'Total Payments of the year 2017-18'},
+                              stackLabels: {
+                                enabled: true,
+                                style: {
+                                  fontWeight: 'bold',
+                                  color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
+                                }
+                              }
+                            },
+                      legend: { align: 'right',x: -30,verticalAlign: 'top',y: 25,floating: true,
+                                backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+                                borderColor: '#CCC',borderWidth: 1,shadow: false
+                              },
+                      tooltip: {
+                                 headerFormat: '<b>{point.x}</b><br/>',
+                                 pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+                                },
+                      plotOptions: {
+                      column: {
+                               stacking: 'normal',
+                               dataLabels: {enabled: true,color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'}
+                      }
+                    },
+                    series: [{name: 'Pending',data: [100000, 90000, 80000, 70000, 60000, 50000, 40000, 30000,20000, 10000]}, 
+                             {name: 'Received',data: [20000, 20000, 20000, 20000, 20000,20000,20000,20000,20000,20000]}
+                             ]
+                 });
+                </script>
+              
+      </div>
+    </div>
+  </div>
+
+  <div class="col s5">
+      <div class="row">
+        <div class="col s12">      
+               <div id="container2" style="height: 400px; margin: 0 auto"></div>
+               
+               <script>
+                  Highcharts.chart('container2', {
+                     chart: {type: 'column'},
+                     title: {text: 'Transport Payments'},
+                     xAxis: {categories: ['10th', '9th', '8th', '7th', '6th','5th', '4th', '3rd', '2nd', '1st']},
+                     yAxis: { min: 0,
+                              title: {text: 'Total Payments of the year 2017-18'},
+                              stackLabels: {
+                                enabled: true,
+                                style: {
+                                  fontWeight: 'bold',
+                                  color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
+                                }
+                              }
+                            },
+                      legend: { align: 'right',x: -30,verticalAlign: 'top',y: 25,floating: true,
+                                backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+                                borderColor: '#CCC',borderWidth: 1,shadow: false
+                              },
+                      tooltip: {
+                                 headerFormat: '<b>{point.x}</b><br/>',
+                                 pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+                                },
+                      plotOptions: {
+                      column: {
+                               stacking: 'normal',
+                               dataLabels: {enabled: true,color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'}
+                      }
+                    },
+                    series: [{name: 'Pending',data: [100000, 90000, 80000, 70000, 60000, 50000, 40000, 30000,20000, 10000]}, 
+                             {name: 'Received',data: [20000, 20000, 20000, 20000, 20000,20000,20000,20000,20000,20000]}
+                             ]
+                 });
+                </script>
+              
+      </div>
+    </div>
+  </div>
+</div>

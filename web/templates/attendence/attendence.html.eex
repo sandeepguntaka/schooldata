@@ -1,0 +1,151 @@
+<div class ="container">
+<div class="row">
+
+
+      <div class="col s8">
+         <div></div>
+         <br/><br/>
+
+        <div class="card z-depth-3">
+          <div class="card-title center">Attendence of 2017-18</div>
+          <div class="card-content">
+                 <table class="bordered">
+                   <thead>
+                      <tr>
+                         <td>Month</td>
+                         <td>Total Working Days</td>
+                         <td>Present Days</td>
+                         <td>Planned Leaves</td>
+                         <td>UnPlanned Leaves</td>
+                         </tr>
+                   </thead>
+                   
+                   <tbody>
+                     <tr>
+                        <td><b>June </b></td>
+                        <td> 20 </td>
+                        <td> 15 </td>
+                        <td> 0 </td>
+                        <td> 5 </td>
+                     </tr>
+
+                     <tr>
+                        <td><b>July </b></td>
+                        <td> 25 </td>
+                        <td> 25 </td>
+                        <td> 0 </td>
+                        <td> 0 </td>
+                     </tr>
+    
+                     <tr>
+                        <td><b>August </b></td>
+                        <td> 26 </td>
+                        <td> 25 </td>
+                        <td> 1 </td>
+                        <td> 0 </td>
+                     </tr>
+
+                     <tr>
+                        <td><b>September </b></td>
+                        <td> 25 </td>
+                        <td> 25 </td>
+                        <td> 0 </td>
+                        <td> 0 </td>
+                     </tr>
+
+                     <tr>
+                        <td><b>October </b></td>
+                        <td> 24 </td>
+                        <td> 24 </td>
+                        <td> 0 </td>
+                        <td> 0 </td>
+                     </tr>
+
+                     <tr>
+                        <td><b>November </b></td>
+                        <td> 24 </td>
+                        <td> 24 </td>
+                        <td> 0 </td>
+                        <td> 0 </td>
+                     </tr>
+
+                     <tr>
+                        <td><b>December </b></td>
+                        <td> 25 </td>
+                        <td> 25 </td>
+                        <td> 0 </td>
+                        <td> 0 </td>
+                     </tr>
+
+                     <tr>
+                        <td><b>January </b></td>
+                        <td> 23 </td>
+                        <td> 22 </td>
+                        <td> 0 </td>
+                        <td> 1 </td>
+                     </tr>
+
+                     <tr>
+                        <td><b>February </b></td>
+                        <td> 20 </td>
+                        <td> 18 </td>
+                        <td> 1 </td>
+                        <td> 1 </td>
+                     </tr>
+
+                     <tr>
+                        <td><b>March </b></td>
+                        <td> 15 </td>
+                        <td> 15 </td>
+                        <td> 0 </td>
+                        <td> 0 </td>
+                     </tr>
+
+                     <tr>
+                        <td><b>April </b></td>
+                        <td> 10 </td>
+                        <td> 10 </td>
+                        <td> 0 </td>
+                        <td> 0 </td>
+                     </tr>
+
+                     <tr>
+                        <td><b> May </b></td>
+                        <td> 0 </td>
+                        <td> 0 </td>
+                        <td> 0 </td>
+                        <td> 0 </td>
+                     </tr>
+
+                    
+                     <tr>
+                        <td><b> Total </b></td>
+                        <td> 237 </td>
+                        <td> 228 </td>
+                        <td> 2 </td>
+                        <td> 7 </td>
+                     </tr>
+
+                   </tbody>
+                 </table>
+            </div>
+              </div>
+      </div>
+
+      <div class="col s4">
+        <br/><br/>
+          <div class="card center">
+          <div class="card-title center">Holidays</div>
+           <div class="card-content">
+               <ul class="collection">
+                 <li class="collection-item">June 25th (Vinayaka Chaturdi)</li>
+                 <li class="collection-item"><b>Sept 30th (Dussara)</b></li>
+                 <li class="collection-item"><b>Oct 2nd (Gandhi Jayanthi)</b></li>
+               </ul>
+           </div>
+          </div>
+      </div>
+
+    </div>
+          
+</div>

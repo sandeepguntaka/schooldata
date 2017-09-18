@@ -1,0 +1,81 @@
+
+<br/><br/>
+    <div class="row">
+       <div class="col s2">
+          <ul class="collection">
+          <%  menu_items = side_menu(@conn, assigns, :payment_types)   %>
+          <%= for { _ , item} <- menu_items do %>
+            <li class = "collection-item <%= item[:active] %>"><a href="<%= item.path %>"><%= item.title %></a> </li>
+          <% end %>
+             
+          </ul>
+       </div>
+       
+       <div class="col s10">
+         <div class="row">
+           <div class="col s12 ">
+              <form method="post" action="<%= @assigns.url %>" id="booking_filters" class="form-inline">
+                 <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>"/>
+                 <div class="table-filters">
+                    <div class="form-group">
+                       <% classes = Helper.get_classes %>
+                      <select name="class_id" class="form-control">
+                      <option value="0">---Select Class---</option>
+                       <%= for class <- classes do %> 
+                          <%= if @filters["class_id"] == Integer.to_string(class.id) do %>
+                             <option value="<%= class.id %>" selected><%= class.name %></option>
+                          <% else %>
+                              <option value="<%= class.id %>" ><%= class.name %></option>
+                          <% end %>
+                       <% end %>
+                      </select>
+                    </div>
+                    <!--
+                     <div class="form-group">
+                      <% classes = Helper.get_classes %>
+                      <select name="fee_id" class="form-control">
+                      <option value="0">---Select Fee Type ---</option>
+                       <%= for class <- classes do %> 
+                          <%= if @filters["fee_id"] == Integer.to_string(class.id) do %>
+                             <option value="<%= class.id %>" selected><%= class.name %></option>
+                          <% else %>
+                              <option value="<%= class.id %>" ><%= class.name %></option>
+                          <% end %>
+                       <% end %>
+                      </select>
+                    </div>
+                    -->
+                     <div class="form-group"><input type="submit" name="filters" value="Go" class="btn btn-primary"/></div>
+                 </div>
+
+                <table class="striped">
+                  <thead>
+                    <tr>
+                        <th>Academic Year</th>
+                        <th>Fee Type</th>
+                        <th>Class</th>
+                        <th>Amount</th>
+                        <th>Installments</th>
+                        <th>Distance(< KM)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <%=  for payment <- @payments do %> 
+                        <tr>
+                           <td><%= payment.acadamic_year %></td>
+                           <td><%= payment.fee_name %></td>
+                           <td><%= payment.class_name %></td>
+                           <td><%= payment.amount %></td>
+                           <td><%= payment.installments %></td>
+                           <td><%= payment.distance %></td>
+                        </tr>
+                  <% end %>
+
+                  
+                  </tbody>
+                </table>
+              </form>
+           </div>
+         </div>
+       </div>
+    </div>

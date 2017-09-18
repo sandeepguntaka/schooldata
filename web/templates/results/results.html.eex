@@ -1,0 +1,55 @@
+<div class ="container">
+<div class="row">
+
+      <div class="col s3">
+         <div></div>
+         <br/><br/>
+         <ul class="card collection">
+            <li class="collection-item">Slip Tests</li>
+            <li class="collection-item">Weekly Exams</li>
+            <li class="collection-item">Quaterly</li>
+            <li class="collection-item">Half Yearly</li>
+            <li class="collection-item">Pre Final</li>
+            <li class="collection-item">Annual</li>
+         </ul>
+      </div>
+
+      <div class="col s6">
+         <div></div>
+         <br/><br/>
+
+        <div class="card z-depth-3">
+          <div class="card-title center">Annual Examination Results</div>
+          <div class="card-content">
+                 <table class="bordered">
+                   <thead><tr><td>SUBJECT</td><td>SCORE</td><td>PERCENTAGE</td><td>GRADE</td></tr></thead>
+                   <tbody>
+                     <tr><td><b>Telugu </b></td> <td> 80/100 </td><td> 80% </td><td> A </td></tr>
+                     <tr><td><b>Hindi  </b></td> <td> 80/100 </td><td> 80% </td><td> A </td></tr>
+                     <tr><td><b>English </b></td> <td> 80/100 </td><td> 80% </td><td> A </td></tr>
+                     <tr><td><b>Mathematics </b></td> <td> 80/100 </td><td> 80% </td><td> A </td></tr>
+                     <tr><td><b>Science</b></td> <td> 80/100 </td><td> 80% </td><td> A </td></tr>
+                     <tr><td><b>Social</b></td> <td> 80/100 </td><td> 80% </td><td> A </td></tr>
+                     <tr><td><b>Computers</b></td> <td> 80/100 </td><td> 80% </td><td> A </td></tr>
+                     <tr><td><b>GK</b></td> <td> 80/100 </td><td> 80% </td><td> A </td></tr>
+                      <tr><td><b>TOTAL</b></td> <td> 640/800 </td><td> 80% </td><td> A </td></tr>
+                   </tbody>
+                 </table>
+            </div>
+              </div>
+      </div>
+
+      <div class="col s3">
+        <br/><br/>
+          <div class="card center">
+          <div class="card-title center">Class Rank</div>
+           <div class="rank-display">
+               <div class="rank"><span class="rank-hash">#</span>2<span class="rank-tag">nd</span>
+               </div>
+           </div>
+          </div>
+      </div>
+
+    </div>
+          
+</div>

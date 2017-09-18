@@ -1,0 +1,24 @@
+<div class ="container">
+  <div class="row">
+    <h5 class="center">Home Works</h5>
+    in :  <%= Enum.at(@roles, 0) %>  : roles 
+    
+    <table>
+       <thead>
+           <tr>
+               <td><b>Date</b></td>
+               <td><b>Subject</b></td>
+               <td><b>HomeWork</b></td>
+           </tr>
+       </thead>
+       <tbody>
+            <tr>
+               <td>2017-10-09</td>
+               <td>Mathamatics</td>
+               <td>Exercixe 2.1</td>
+           </tr>
+
+       </tbody>
+    </table>
+  </div>
+</div>
