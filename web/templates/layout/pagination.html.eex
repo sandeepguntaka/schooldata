@@ -1,0 +1,53 @@
+<%= if @assigns.total do %>
+
+<%
+  total = @assigns.total
+  current_page = @assigns.current_page
+  per_page = @assigns.per_page
+  page_start_value = if total > 0, do: ((current_page - 1) * per_page) + 1, else: 0
+  page_end_value = (current_page * per_page)
+  page_end_value = if page_end_value < total, do: page_end_value, else: total
+  total_pages = Decimal.new(Float.ceil(total/per_page))
+  total_pages = Decimal.to_integer(total_pages)
+%>
+
+<span style="float:right;">Showing <%= page_start_value%> to <%= page_end_value %> of <%= total %> (<%= total_pages %> Pages)</span>
+<br/>
+<input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>"/>
+  <% last_page = if rem(@assigns.total, @assigns.per_page) == 0, do: div(@assigns.total, @assigns.per_page),
+     else: div(@assigns.total, @assigns.per_page) + 1 %>
+  <ul class="pager">
+    <input type="hidden" name="current_page" id="current_page" value="<%= @assigns.current_page %>"/>
+    <input type="hidden" name="pagination_action" id="pagination-action" value=""/>
+    <%= if @assigns.current_page == 1 do %>
+      <li id="first" class="previous disabled"><a href="<%= @assigns.url %>">&larr; First</a></li>
+    <% else %>
+      <li id="first" class="previous"><a href="<%= @assigns.url %>">&larr; First</a></li>
+    <% end %>
+    <% per_page_list = [10, 25, 50] %>
+    <select id="per_page" name="per_page" class="form-control pagination-per-page">
+      <%= for i <- per_page_list do %>
+        <%= if @assigns.per_page == i do %>
+          <option value="<%= i %>" selected><%= i %></option>
+        <% else %>
+          <option value="<%= i %>"><%= i %></option>
+        <%= end %>
+      <% end %>
+    </select>
+    <%= if @assigns.current_page == 1 do %>
+      <li id="prev" class="disabled"><a href="<%= @assigns.url %>">&larr; Previous</a></li>
+    <% else %>
+      <li id="prev"><a href="<%= @assigns.url %>">&larr; Previous</a></li>
+    <% end %>
+    <%= if @assigns.current_page == last_page || @assigns.current_page < 0 do %>
+      <li id="next" class="disabled"><a href="<%= @assigns.url %>">Next &rarr;</a></li>
+    <% else %>
+      <li id="next"><a href="<%= @assigns.url %>">Next &rarr;</a></li>
+    <% end %>
+    <%= if @assigns.current_page < 0 || @assigns.current_page == last_page do %>
+      <li id="last" class="next disabled"><a href="<%= @assigns.url %>">Last &rarr;</a></li>
+    <% else %>
+      <li id="last" class="next"><a href="<%= @assigns.url %>">Last &rarr;</a></li>
+    <% end %>
+  </ul>
+<% end %>

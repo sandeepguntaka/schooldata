@@ -5,7 +5,7 @@ defmodule Schooldata.PaymentDetailsView do
        user = assigns[:current_user]
        roles = assigns[:roles]
        side_menu = [view_all_payments: %{title: "Payments Dashboard", path: payments_path(conn, :index)}]
-       side_menu = Keyword.put_new(side_menu, :payment_types, %{title: "Payment Types", path: payment_details_path(conn, :index)}) 
+       side_menu = Keyword.put_new(side_menu, :payment_types, %{title: "Fee Structure", path: payment_details_path(conn, :index)}) 
        side_menu = Keyword.put_new(side_menu, :payment_list, %{title: "Payments List", path: payment_details_path(conn, :list)}) 
        side_menu = Keyword.put_new(side_menu, :add_payments, %{title: "Add New Payment", path: payments_path(conn, :new)}) 
 

@@ -1,0 +1,50 @@
+<div class="navbar-fixed school-fixed-header">
+  <nav class="school-navigation">
+    <div class="nav-wrapper container">
+      <ul class="right hide-on-med-and-down">
+        <%= if @current_user do %>
+         <li>Welcome  <%= @current_user.username %>!</li>
+         <li><%= link "Sign out", to: session_path(@conn, :delete, @current_user), method: "delete" %> </li>
+        <% else %>
+  	     <li><%= link "Register", to: registration_path(@conn, :new) %></li>
+         <li><%= link "Sign in", to: session_path(@conn, :new) %></li>
+        <% end %>
+      </ul>
+    </div>
+      
+  </nav>
+</div>
+
+ <nav class="schooldata-navigation">
+    <div class="nav-wrapper">
+      <div class ="container">
+      <a href="/" class="brand-logo">
+        <image class="logo"src="<%= static_path(@conn, "/images/School_Logo.jpg") %>" /></a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="/">Home</a></li>
+         <%= if @current_user do %>
+        <li><%= link "Profile", to: registration_path(@conn, :profile, @current_user) %></li>
+        <li><%= link "Results", to: results_path(@conn, :index) %></li>
+        <li><%= link "Attendence", to: attendence_path(@conn, :index) %></li>
+        <li><%= link "Home Work", to: homework_path(@conn, :index) %></li>
+        <li><%= link "Complaints Board", to: complaints_path(@conn, :index) %></li>
+        <!-- <li><%= link "Payments", to: payments_path(@conn, :index) %></li> -->
+        <li><a class="dropdown-button" href="<% payments_path(@conn, :index) %>" data-activates="dropdown1">Payments<i class="material-icons right">arrow_drop_down</i></a></li>
+     
+   <% end %>        
+      </ul>
+    </div>
+
+<ul id="dropdown1" class="dropdown-content">
+  <li><a href="<%= payments_path(@conn, :index) %>">Dashboard</a></li>
+  <li class="divider"></li>
+  <li><a href="#!">Transport</a></li>
+  <li class="divider"></li>
+  <li><a href="#!">Salaries</a></li>
+  <li class="divider"></li>
+  <li><a href="#!">Expenses</a></li>
+</ul>
+
+    </div>
+
+  </nav>

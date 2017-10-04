@@ -1,0 +1,298 @@
+defmodule GrncServer.AjaxController do
+  use GrncServer.Web, :controller
+
+  alias GrncServer.{
+    HotelBookingOtherInfo,
+    HotelBookingAmountBreakdown,
+    HotelBooking,
+    Markup,
+    Agent
+  }
+
+  alias GrncServer.HotelBookingControllerHelper, as: GRNCHBCHelper
+  alias GrncServer.Hotel.Booking.Cancel, as: GRNCHBCancel
+
+  def country_destinations_json(conn, %{"code" => country_code}) do
+    destinations = Helper.get_country_destinations(country_code)
+    
+    [_ | destinations] = destinations
+    json conn, Enum.into(destinations, %{})
+  end
+
+  def destination_cities_json(conn, %{"code" => destination_code}) do
+    cities = Helper.get_destination_cities(destination_code)
+    
+    [_ | cities] = cities
+    json conn, Enum.into(cities, %{})
+  end
+
+  def get_suppliers(conn, _params) do
+    suppliers = Helper.get_suppliers
+    suppliers = Enum.reduce(suppliers, %{}, fn(supplier, acc) ->
+      Map.put(acc, supplier[:code], %{code: supplier[:code]}) end)
+    json conn, suppliers
+  end
+
+  def get_agents(conn, params) do
+    data = AgentDB.get_agents_by_name(params["name"])
+    json conn, data
+  end
+
+  def calculate_sp_with_markup(conn, params) do
+    booking_other_info = Repo.get_by(HotelBookingOtherInfo, booking_id: params["booking_id"])
+    conversion_amount = if booking_other_info do
+      booking_other_info.conversion_amount
+    else
+      Helper.convert_currency(params["purchase_currency"], params["booking_currency"], 1)
+      |> Decimal.new()
+    end
+    booking = Repo.get(HotelBooking, params["booking_id"])
+    purchase_price = Decimal.new(String.trim(params["purchase_price"]))
+    net = Decimal.mult(conversion_amount, purchase_price)
+    markup = Decimal.new(String.trim(params["markup"]))
+    net = Decimal.mult(net, Decimal.div(markup, Decimal.new(100))) |> Decimal.add(net)
+    |> Helper.round_to_dplaces
+    params = Map.put(params, "net", net)
+    configs = Repo.one(Markup)
+    price_breakdown = from(bd in HotelBookingAmountBreakdown,
+      where: bd.booking_id == ^params["booking_id"] and bd.is_grn_charge == 1) |> Repo.all()
+    params = if booking_other_info &&
+      Decimal.equal?(purchase_price, booking_other_info.booking_price) &&
+      Decimal.equal?(markup, booking_other_info.markup_percentage) do
+      params = Map.put(params, "selling_price", Helper.roundoff_to_dplaces(:upper, booking.amount, 0))
+      if Helper.is_empty(price_breakdown) do
+        agent = Repo.get_by(Agent, user_id: booking.user_id)
+        if agent.country_code == "IN" do
+          calculate_taxes(params, configs, net, agent)
+        else
+          Map.put(params, "selling_price", Helper.roundoff_to_dplaces(:upper, net, 0))
+        end
+      else params
+      end
+    else
+      if Helper.is_empty(price_breakdown) do
+        agent = Repo.get_by(Agent, user_id: booking.user_id)
+        if agent.country_code == "IN" do
+          calculate_taxes(params, configs, net, agent)
+        else
+          Map.put(params, "selling_price", Helper.roundoff_to_dplaces(:upper, net, 0))
+        end
+      else
+        if Enum.any?(price_breakdown, fn(each) -> each.label == "servicetax" end) do
+          servicetax = Decimal.mult(net, Decimal.div(Decimal.new(Helper.old_servicetax),
+                Decimal.new(100)))
+                |> Helper.round_to_dplaces
+          params = Map.put(params, "servicetax", servicetax)
+          selling_price = Helper.roundoff_to_dplaces(:upper, (Decimal.add(net, servicetax)
+                |> Decimal.to_float), 0)
+          params = Map.put(params, "selling_price", selling_price)
+          params = Map.put(params, "servicetax", Decimal.round(servicetax, 2))
+          Map.put(params, "net", Helper.roundoff_to_dplaces(:upper, net, 0))
+        else
+          if Enum.find(price_breakdown, fn(bd) -> bd.label == "GST" end) do
+            servicefee = Decimal.div(configs.servicefee, Decimal.new(100)) |> Decimal.mult(net)
+            |> Helper.round_to_dplaces
+            params = Map.put(params, "servicefee", servicefee)
+            net_total = Decimal.add(net, servicefee) |> Helper.round_to_dplaces
+            params = Map.put(params, "net", net_total)
+            params = Map.put(params, "supplier_price", net)
+            params = if Enum.find(price_breakdown, fn(bd) -> bd.label == "GST"
+                  && bd.name == "CGST" end) do
+              cgst = Decimal.div(configs.servicetax, Decimal.new(2)) |> Decimal.div(Decimal.new(100))
+              |> Decimal.mult(servicefee) |> Helper.round_to_dplaces
+              params = Map.put(params, "cgst", cgst)
+              params = Map.put(params, "sgst", cgst)
+              gst = Decimal.mult(cgst, Decimal.new(2))
+              |> Helper.round_to_dplaces()
+              Map.put(params, "gst", gst)
+            else
+              gst = Decimal.div(configs.servicetax, Decimal.new(100))
+              |> Decimal.mult(servicefee) |> Helper.round_to_dplaces
+              Map.put(params, "gst", gst)
+            end
+            selling_price = Decimal.add(net_total, params["gst"])
+            Map.put(params, "selling_price", Helper.roundoff_to_dplaces(:upper, selling_price, 0))
+          else
+            Map.put(params, "selling_price", Helper.roundoff_to_dplaces(:upper, net, 0))
+          end
+        end
+      end
+    end
+    json conn, params
+  end
+
+  def calculate_markup_percentage(conn, params) do
+    booking_other_info = Repo.get_by(HotelBookingOtherInfo, booking_id: params["booking_id"])
+    conversion_amount = if booking_other_info do
+      booking_other_info.conversion_amount
+    else
+      Helper.convert_currency(params["purchase_currency"], params["booking_currency"], 1)
+      |> Decimal.new()
+    end
+    booking = Repo.get(HotelBooking, params["booking_id"])
+    selling_price = String.trim(params["selling_price"]) |> Decimal.new()
+    purchase_price = String.trim(params["purchase_price"]) |> Decimal.new()
+    conv_purchase_price = Decimal.mult(purchase_price, conversion_amount)
+    config = Repo.one(Markup)
+    price_breakdown = from(bd in HotelBookingAmountBreakdown,
+      where: bd.booking_id == ^params["booking_id"] and bd.is_grn_charge == 1) |> Repo.all()
+    params = if (booking_other_info &&
+      Decimal.equal?(purchase_price, booking_other_info.booking_price)) &&
+      Decimal.equal?(selling_price, booking.amount) do
+      params = Map.put(params, "markup_percentage", booking_other_info.markup_percentage)
+      if Helper.is_empty(price_breakdown) do
+        agent = Repo.get_by(Agent, user_id: booking.user_id)
+        if agent.country_code == "IN" do
+          calculate_taxes_by_sp(params, config, agent)
+        else
+          markup_percentage = Decimal.sub(selling_price, conv_purchase_price)
+          |> Decimal.mult(Decimal.new(100))
+          |> Decimal.div(conv_purchase_price)
+          Map.put(params, "markup_percentage", Decimal.round(markup_percentage, 2))
+        end
+      else params
+      end
+    else
+      if Helper.is_empty(price_breakdown) do
+        agent = Repo.get_by(Agent, user_id: booking.user_id)
+        if agent.country_code == "IN" do
+          calculate_taxes_by_sp(params, config, agent)
+        else
+          markup_percentage = Decimal.sub(selling_price, conv_purchase_price)
+          |> Decimal.mult(Decimal.new(100))
+          |> Decimal.div(conv_purchase_price)
+          Map.put(params, "markup_percentage", Decimal.round(markup_percentage, 2))
+        end
+      else
+        if Enum.any?(price_breakdown, fn(each) -> each.label == "servicetax" end) do
+          net = Decimal.div(Decimal.new(100), Decimal.add(Decimal.new(100),
+                Decimal.new(Helper.old_servicetax)))
+                |> Decimal.mult(selling_price)
+          servicetax = Decimal.sub(selling_price, net)
+          markup_percentage = Decimal.sub(net, conv_purchase_price)
+          |> Decimal.mult(Decimal.new(100))
+          |> Decimal.div(conv_purchase_price)
+          params = Map.put(params, "markup_percentage", Decimal.round(markup_percentage, 2))
+          params = Map.put(params, "servicetax", Decimal.round(servicetax, 2))
+          Map.put(params, "net", Decimal.round(net, 2))
+        else
+          if Enum.find(price_breakdown, fn(bd) -> bd.label == "GST" end) do
+            servicefee = Decimal.mult(config.servicefee, Decimal.new(100))
+            gst = Decimal.mult(config.servicetax, config.servicefee)
+            purchase_price = Decimal.add(Decimal.new(10000), servicefee) |> Decimal.add(gst)
+            purchase_price = Decimal.mult(Decimal.new(10000), selling_price)
+            |> Decimal.div(purchase_price) |> Helper.floor_to_dplaces
+            params = Map.put(params, "purchase_price", purchase_price)
+            params = Map.put(params, "supplier_price", purchase_price)
+            servicefee = Decimal.div(config.servicefee, Decimal.new(100))
+            |> Decimal.mult(purchase_price) |> Helper.round_to_dplaces()
+            params = Map.put(params, "servicefee", servicefee)
+            net_total = Decimal.add(servicefee, purchase_price) |> Helper.round_to_dplaces()
+            params = Map.put(params, "net", net_total)
+            params = Map.put(params, "markup_percentage", 0)
+            if Enum.find(price_breakdown, fn(bd) -> bd.name == "CGST" end) do
+              cgst = Decimal.div(config.servicetax, Decimal.new(2)) |> Decimal.div(Decimal.new(100))
+              |> Decimal.mult(servicefee) |> Helper.round_to_dplaces()
+              params = Map.put(params, "cgst", cgst)
+              params = Map.put(params, "sgst", cgst)
+              Map.put(params, "gst", Decimal.mult(cgst, Decimal.new(2)) |> Helper.round_to_dplaces())
+            else
+              gst = Decimal.div(config.servicetax, Decimal.new(100))
+              |> Decimal.mult(servicefee) |> Helper.round_to_dplaces()
+              Map.put(params, "gst", gst)
+            end
+          else
+            markup_percentage = Decimal.sub(selling_price, conv_purchase_price)
+            |> Decimal.mult(Decimal.new(100))
+            markup_percentage = if Decimal.compare(Decimal.new(markup_percentage), Decimal.new(0)) ==
+              Decimal.new(0) do
+              Decimal.new(0)
+            else
+              Decimal.div(markup_percentage, conv_purchase_price)
+            end
+            Map.put(params, "markup_percentage", Decimal.round(markup_percentage, 2))
+          end
+        end
+      end
+    end
+    json conn, params
+  end
+
+  def get_cancellation_charge(conn, params) do
+    booking = Repo.get(HotelBooking, params["bid"])
+    errors = if params["no_validation"] == "true" do
+      nil
+    else
+      GRNCHBCHelper.validate_update_booking_status_form(params, booking)
+    end
+    params = if !Helper.is_empty(errors) do
+      params = Map.put(params, "has_errors", true)
+      Map.put(params, "errors", errors)
+    else
+      params = Map.put(params, "has_errors", false)
+      case Ecto.DateTime.cast(params["cancel_date"]<>" "<>params["cancel_time"]) do
+        {:ok, cancellation_date} ->
+          refund = GRNCHBCancel.cancellation_refund(booking, cancellation_date)
+          params = Map.put(params, "refund", refund)
+          Map.put(params, "cancellation_charge", Decimal.sub(booking.amount, refund))
+        _ ->
+          Map.put(params, "cancellation_charge", "")
+      end
+    end
+    json conn, params
+  end
+
+  def calculate_taxes(params, config, net, agent) do
+    servicefee = Decimal.div(config.servicefee, Decimal.new(100)) |> Decimal.mult(net)
+    |> Helper.round_to_dplaces
+    params = Map.put(params, "servicefee", servicefee)
+    net_total = Decimal.add(net, servicefee) |> Helper.round_to_dplaces
+    params = Map.put(params, "net", net_total)
+    params = Map.put(params, "supplier_price", net)
+    if agent.state_code in HotelBookingAmountBreakdown.cgst_state_codes do
+      cgst = Decimal.div(config.servicetax, Decimal.new(2)) |> Decimal.div(Decimal.new(100))
+      |> Decimal.mult(servicefee) |> Helper.round_to_dplaces
+      params = Map.put(params, "cgst", cgst)
+      params = Map.put(params, "sgst", cgst)
+      gst = Decimal.mult(cgst, Decimal.new(2))
+      |> Helper.round_to_dplaces()
+      params = Map.put(params, "gst", gst)
+      selling_price = Decimal.add(net_total, gst)
+      Map.put(params, "selling_price", Helper.roundoff_to_dplaces(:upper, selling_price, 0))
+    else
+      gst = Decimal.div(config.servicetax, Decimal.new(100))
+      |> Decimal.mult(servicefee) |> Helper.round_to_dplaces
+      params = Map.put(params, "gst", gst)
+      selling_price = Decimal.add(net_total, gst)
+      Map.put(params, "selling_price", Helper.roundoff_to_dplaces(:upper, selling_price, 0))
+    end
+  end
+
+  def calculate_taxes_by_sp(params, config, agent) do
+    selling_price = String.trim(params["selling_price"]) |> Decimal.new()
+    servicefee = Decimal.mult(config.servicefee, Decimal.new(100))
+    gst = Decimal.mult(config.servicetax, config.servicefee)
+    purchase_price = Decimal.add(Decimal.new(10000), servicefee) |> Decimal.add(gst)
+    purchase_price = Decimal.mult(Decimal.new(10000), selling_price)
+    |> Decimal.div(purchase_price) |> Helper.floor_to_dplaces
+    params = Map.put(params, "purchase_price", purchase_price)
+    params = Map.put(params, "supplier_price", purchase_price)
+    servicefee = Decimal.div(config.servicefee, Decimal.new(100))
+    |> Decimal.mult(purchase_price) |> Helper.round_to_dplaces()
+    params = Map.put(params, "servicefee", servicefee)
+    net_total = Decimal.add(servicefee, purchase_price) |> Helper.round_to_dplaces()
+    params = Map.put(params, "net", net_total)
+    params = Map.put(params, "markup_percentage", 0)
+    if agent.state_code in HotelBookingAmountBreakdown.cgst_state_codes do
+      cgst = Decimal.div(config.servicetax, Decimal.new(2)) |> Decimal.div(Decimal.new(100))
+      |> Decimal.mult(servicefee) |> Helper.round_to_dplaces()
+      params = Map.put(params, "cgst", cgst)
+      params = Map.put(params, "sgst", cgst)
+      Map.put(params, "gst", Decimal.mult(cgst, Decimal.new(2)) |> Helper.round_to_dplaces())
+    else
+      gst = Decimal.div(config.servicetax, Decimal.new(100))
+      |> Decimal.mult(servicefee) |> Helper.round_to_dplaces()
+      Map.put(params, "gst", gst)
+    end
+  end
+end

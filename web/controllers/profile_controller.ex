@@ -46,12 +46,11 @@ defmodule Schooldata.ProfileController do
 
 
 
-        IO.puts "++++++++++++"
-        IO.inspect(user_profile)
-        IO.puts "++++++++++++++"
+        #  IO.puts "++++++++++++"
+        #  IO.inspect(user_profile)
+        #  IO.puts "++++++++++++++"
 
         changeset = UserProfile.changeset(old_profile, user_profile)
-       
         user = Repo.get!(User, conn.assigns.current_user.id)
 
         class_list = Enum.reduce(Helper.get_classes(), [], fn(f, acc) -> 

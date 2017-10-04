@@ -1,7 +1,26 @@
 
 <br/><br/>
     <div class="row">
-       <div class="col s2">
+
+       <div class="col s3">
+            <ul class='collection'>
+              <li class="green collection-item"><b>Total Received Payments</b></li>
+              <%= if length(@total) > 0 do %>
+                  <%=  for {total, type, _} <- @total do %> 
+                  <li class="collection-item"><div class="left"><b><%= type %></b> </div>: <div class="right"><%= total %></div></li>
+                  <% end %>
+              <% end %>
+                  <li class="collection-item"><div class="left"><b>Total</b> </div>: <div class="right"><%= @grand_total %>/-</div></li>
+            </ul>
+
+          <!--  <div class='collection'>
+              <div class="collection-item red"><b>Pending Payments</b></div>
+              <div class="collection-item">100000</div>
+            </div>
+          -->
+      </div>
+
+       <!-- <div class="col s2">
           <ul class="collection">
           <%  menu_items = side_menu(@conn, assigns, :payment_list)   %>
           <%= for { _ , item} <- menu_items do %>
@@ -10,82 +29,74 @@
              
           </ul>
        </div>
-       
-       <div class="col s10">
-         <div class="row">
-           <div class="col s12 ">
-              <form method="post" action="<%= @assigns.url %>" id="booking_filters" class="form-inline">
-                 <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>"/>
-                 <div class="table-filters">
-                    <div class="form-group">
-                       <% classes = Helper.get_classes %>
-                      <select name="class_id" class="form-control">
-                      <option value="0">---Select Class---</option>
-                       <%= for class <- classes do %> 
-                          <%= if @filters["class_id"] == Integer.to_string(class.id) do %>
-                             <option value="<%= class.id %>" selected><%= class.name %></option>
-                          <% else %>
-                              <option value="<%= class.id %>" ><%= class.name %></option>
-                          <% end %>
-                       <% end %>
-                      </select>
-                    </div>
-                    
-                     <div class="form-group">
-                        <select name="status" class="form-control">
-                          <option value="0">---Select---</option>
-                          <option value="1" <%= if @filters["status"] == "1", do: "selected"%> >Open</option>
-                          <option value="2" <%= if @filters["status"] == "2", do: "selected"%> >Closed</option>
-                          <option value="3" <%= if @filters["status"] == "3", do: "selected"%> >Partially Paid</option>
-                         </select>
-                    </div>
-                    
-                     <div class="form-group"><input type="submit" name="filters" value="Go" 
-                         class="btn btn-primary blue"/></div>
-                 </div>
-                <br/>
-                <div class="row ">
-                  <div class="col s3 green chip center"><b>Total Received Payments</b></div>
-                  <div class="col s2 green chip center z-depth-5"><b>100000</b></div>
-                  <div class="col s3 red chip offset-s1 center"><b>Pending Payments</b></div>
-                  <div class="col s2 red chip center z-depth-5"><b>100000</b></div>
-                </div>
-                <table class="striped">
-                  <thead>
-                    <tr>
-                        <th>Bill No</th>
-                        <th>Class</th>
-                        <th>Student Name</th>
-                        <th>Fee Type</th>
-                        <th>Payment Date</th>
-                         <th>Amount Paid</th>
-                        <th>Balance Left</th>
-                        <th>Status</th>
-                        <th>Received By</th>
-                        <th>Remarks</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <%=  for payment <- @payments do %> 
-                        <tr>
-                           <td>Bill No</td>
-                           <td><%= payment.class_name %></td>
-                           <td>Student Name </td>
-                           <td><%= payment.fee_name %></td>
-                           <td>Payment Date</td>
-                           <td><%= payment.amount %></td>
-                           <td> Balance </td>
-                           <td>Closed</td>
-                           <td>Teacher 1</td>
-                           <td>nil</td>
-                        </tr>
+       -->
+       <div class="col s9">
+        <form method="post" action="<%= @assigns.url %>" id="booking_filters" class="form-inline">
+            <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>"/>
+            <div class="table-filters">
+              <div class="form-group">
+                  <% classes = Helper.get_classes %>
+                <select name="class_id" class="form-control">
+                <option value="0">---Select Class---</option>
+                  <%= for class <- classes do %> 
+                    <%= if @filters["class_id"] == Integer.to_string(class.id) do %>
+                        <option value="<%= class.id %>" selected><%= class.name %></option>
+                    <% else %>
+                        <option value="<%= class.id %>" ><%= class.name %></option>
+                    <% end %>
                   <% end %>
+                </select>
+              </div>
+              
+                <div class="form-group">
+                  <select name="status" class="form-control">
+                    <option value="0">---Select---</option>
+                    <option value="1" <%= if @filters["status"] == "1", do: "selected"%> >Open</option>
+                    <option value="2" <%= if @filters["status"] == "2", do: "selected"%> >Closed</option>
+                    <option value="3" <%= if @filters["status"] == "3", do: "selected"%> >Partially Paid</option>
+                    </select>
+              </div>
+              
+                <div class="form-group"><input type="submit" name="filters" value="Go" 
+                    class="btn btn-primary blue"/></div>
+            </div>
+          <br/>
+          <table class="striped">
+            <thead>
+              <tr>
+                  <th>Bill No</th>
+                  <th>Class</th>
+                  <th>Student Name</th>
+                  <th>Fee Type</th>
+                  <th>Payment Date</th>
+                    <th>Amount Paid</th>
+                  <th>Status</th>
+                  <th>Received By</th>
+                  <th>Remarks</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%=  for {userpayment, paymentdetails, userprofile, classes, payments} <- @payments do %> 
+              <% received = Helper.load_user_details(userpayment.received_id)   %>
+                  <tr>
+                      <td><%= userpayment.id %></td>
+                      <td><%= classes.name %></td> 
+                      <td><%= userprofile.full_name %> </td>
+                      <td><%= payments.payment_name %> </td>
+                      <td><%= DateTime.to_date(userpayment.payment_date) %></td>
+                      <td><%= paymentdetails.amount_paid %></td> 
+                      <td><%= userpayment.status %></td>
+                      <td><%= received.full_name %> 1</td>
+                      <td><%= userpayment.comment %></td>
+                  </tr>
+            <% end %>
 
-                  
-                  </tbody>
-                </table>
-              </form>
-           </div>
-         </div>
+            
+            </tbody>
+          </table>
+        </form>
+        <%= render Schooldata.LayoutView, "pagination.html", assigns: @assigns %> 
        </div>
+
+     
     </div>

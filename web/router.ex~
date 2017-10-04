@@ -38,11 +38,7 @@ defmodule Schooldata.Router do
     post "/payment-types", PaymentDetailsController, :index
     get "/payments-list", PaymentDetailsController, :list
     post "/payments-list", PaymentDetailsController, :list
-      
-    post "/student/:class_id/id", AjaxController, :student_id_json
-    post "/student/:student_id/name", AjaxController, :student_name_json
-    
-  end
+    end
 
   # Other scopes may use custom stacks.
   # scope "/api", Schooldata do

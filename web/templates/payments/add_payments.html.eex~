@@ -18,7 +18,7 @@
    <div class="row">
    <%= if f.errors != [] do %>
     <div class="alert alert-danger">
-      <p>Oops, something went wrong! Enter all correct details and submit again!.</p>
+      <p>Oops, something went wrong! Please check the errors below:</p>
     </div>
   <% end %>
       <div class = 'row'>
@@ -37,7 +37,7 @@
            <div class="col s4">
              <label for="name">Class</label>
              <% classes = Helper.get_classes %>
-             <select name="class_id" class="form-control class_id">
+             <select name="class_id" class="form-control">
                       <option value="0">---Select Class---</option>
                        <%= for class <- classes do %> 
                               <option value="<%= class.id %>" ><%= class.name %></option>
@@ -46,32 +46,24 @@
           </div>
 
           <div class="col s4">
-             <label for="name">Student Name</label>
+             <label for="name">Student ID</label>
              <select name="user_id" class="form-control student_id">
-                <option value="0">-- Select Student --</option>
+                <option value="0">---Select Class---</option>
              </select>
-               <%= error_tag f, :user_id %>
           </div>
 
-         <!-- <div class="col s4">
+          <div class="col s4">
              <label for="name">Student Name</label>
              <select name="full_name" class="form-control student_name">
                 <option value="0">---Select Class---</option>
              </select>
           </div>
-         -->
+
 
         </div>
   
         <% payments = Helper.get_payment_types %>
        <div class = 'row card' >
-         <%= if f.errors != [] do %>
-           <div class="alert alert-danger">
-           <p>Payment type and Amounts are required.And also amount must be numbers!</p>
-         </div>
-         <% end %>
-
-
              <table class = "payment-types">
                <thead>
                  <tr><th>Fee Type</th><th>Amount</th><th>Actions</th></tr>
@@ -80,7 +72,7 @@
                  <tr>
                    <td>
                        <select name="payment_id[1]" class="form-control payment-type">
-                         <option value="0">-- Select Payment Type --</option>
+                         <option value="0">---Select Class---</option>
                           <%= for payment <- payments do %> 
                               <option value="<%= payment.id %>" ><%= payment.payment_name %></option>
                           <% end %>
@@ -113,8 +105,6 @@
                   <option value="card">Card</option>
                   <option value="check">Check</option>
                </select>
-               <%= error_tag f, :payment_mode %>
-
            </div>
         </div>
 

@@ -1,0 +1,76 @@
+<div class="row">
+  <div class="col s2">
+    <ul class="collection">
+          <%  menu_items = side_menu(@conn, assigns, :view_all_payments)   %>
+          <%= for { _ , item} <- menu_items do %>
+            <li class = "collection-item <%= item[:active] %>"><a href="<%= item.path %>"><%= item.title %></a> </li>
+          <% end %>
+    </ul>
+  </div>
+
+<%= if @noresult == 1 do %>
+  <br/><br/>
+  <div class="col s7 center"><h4>No Bill Found.</h4></div>
+<% else %>
+  <div class="col s7  card">
+        <div class="row center"><h5>Acadamic Year : <%= @payments.acadamic_year %> </h5></div>      
+        <div class="row user-info">
+           <div class="col s6"> 
+              <p class="bill-info"><b>Name : </b><%= @user.full_name %></p>   
+              <p class="bill-info"><b>Roll Number : </b><%= @user.roll_number %></p>   
+              <p class="bill-info"><b>Class : </b><%= @user.class_id %></p>
+              <p class="bill-info"><b>Section : </b><%= @user.section_id %></p>
+            </div>
+
+          <div class="col s6">
+            <div class="right-content"><b>Bill No : </b> RECPT-<%= @payments.acadamic_year %>-<%= @payments.id %></div>
+            <div class="right-content"><b>Bill Date : </b><%= @payments.payment_date.year %>-<%= @payments.payment_date.month %>-<%= @payments.payment_date.day %></div>
+          </div>   
+        </div>
+        
+        <div class="row">
+         <div class="col s12">
+
+          <div class="title center"><h5>Payment Details</h5></div>   
+            <div class="bill-item">
+              <div class="bill-type"><b>Particulars</b></div>   
+              <div class="right-content"><b>Paid Amount</b></div>   
+            </div>
+
+            <%= for {payment, pay_l} <- @list do %>   
+            <div class="bill-item">
+              <div class="bill-type"><strong><%= payment.payment_name %></strong></div>   
+              <div class="right-content"><%= pay_l.amount_paid |> Decimal.new |> Decimal.round(2) %></div>   
+            </div>
+           <% end %>
+             <div class="bill-item ">
+               <div class="bill-type"><b>Total Paid</b></div>   
+               <div class="right-content"><b><%= @total %></b></div>   
+             </div>
+             <br/>
+             <div class ="capitalize"><b>In words : </b>Rs. <%=  @words  %> only/-</div>
+
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="title center"><h5>Payment Mode</h5></div>   
+              <div class="col s8">
+                <p class="bill-info"><b>Mode : </b><%= @payments.payment_mode %></p>   
+                <p class="bill-info"><b>Details:</b> <%= @payments.comment %></p>  
+              </div>
+
+              <div class="col s4 right-content">
+                <p class="bill-info"><b>Received By</b></p>   
+                <p class="bill-info"><%= @received.full_name %></p>  
+              </div>
+          </div>
+
+    <div class="row col s8">
+       NOTE:
+    </div>
+
+  </div>
+<% end %>
+
+</div>

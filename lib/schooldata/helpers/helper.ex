@@ -4,10 +4,18 @@ defmodule Helper do
     import Ecto.Query 
 
     alias Schooldata.Classes
+    alias Schooldata.UserProfile
     alias Schooldata.Sections
     alias Schooldata.UserRoles
     alias Schooldata.Payments 
 
+    def load_user_details(id) do
+      if id do
+       user = Repo.get_by(UserProfile, [uid: id])
+      else 
+       []
+      end
+    end
 
     def logged_in_roles(current_user) do
       if current_user != nil do
@@ -29,6 +37,17 @@ defmodule Helper do
 
     def get_classes do
         classes = Repo.all(Classes)
+    end
+
+    def get_student_ids(class_code) do
+      query = from(up in UserProfile,
+                   select: %{uid: up.uid, name: up.full_name}, 
+                   where: up.class_id == ^String.to_integer(class_code)
+                  )
+        classes = Repo.all(query)
+        class_list = Enum.reduce(classes, [], fn(class, acc) ->
+          [{class[:name], class[:uid]} | acc] 
+        end)
     end
 
     def get_payment_types do

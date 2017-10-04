@@ -1,7 +1,11 @@
-<br/><br/>
-
-<div class="row">
-  <div class="col s2">
+<ul class = "collapsible" data-collapsible = "accordion">
+         <li>
+            <div class = "collapsible-header active">
+               <i class = "material-icons">dashboard</i><b>Dashboard Widgets</b></div>
+            <div class = "collapsible-body">
+            
+            <div class="row">
+<!--  <div class="col s2">
     <ul class="collection">
           <%  menu_items = side_menu(@conn, assigns, :view_all_payments)   %>
           <%= for { _ , item} <- menu_items do %>
@@ -9,8 +13,45 @@
           <% end %>
     </ul>
   </div>
-       
-  <div class="col s5">
+-->
+      
+  <div class="row dashboard-items">
+     <div class="row center">
+          <div class="col s2 collection red"><a href="<%= payments_path(@conn, :new) %>">Add New Payment</a></div>
+          <div class="col s2 collection blue" ><a href="<%= payment_details_path(@conn, :index) %>">Fee Structure</a></div>
+          <div class="col s2 collection green"><a href="<%= payment_details_path(@conn, :list) %>">Payments List</a></div>
+          <div class="col s2 collection alloy">Transport</div>
+          <div class="col s2 collection cyellow">Salaries</div>
+          <div class="col s2 collection bitter">Others</div>
+     </div>
+
+     <div class="row center">
+          <div class="col s2 collection ceil">Admissions</div>
+          <div class="col s2 collection sgreen">Student Profiles</div>
+          <div class="col s2 collection ered">Exams/Results</div>
+          <div class="col s2 collection fdrab">Attendence/Holidays</div>
+          <div class="col s2 collection fed">Bus Routes</div>
+          <div class="col s2 collection desire">Complaints</div>
+     </div>
+      <div class="row center">
+          <div class="col s2 collection bgreen">Staff</div>
+          <div class="col s2 collection cgrey">Work Sheets</div>
+          <div class="col s2 collection caramel">Leaves</div>
+          
+     </div>
+  </div>
+</div>
+
+            
+            </div>
+         </li>
+        </ul>
+
+<br/>
+
+
+<div class="row">
+  <div class="col s6">
       <div class="row">
         <div class="col s12">              
                <script src="https://code.highcharts.com/highcharts.js"></script>

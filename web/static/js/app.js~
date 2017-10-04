@@ -20,8 +20,6 @@ import "phoenix_html"
 
 // import socket from "./socket"
 
-import { Schooldata } from "web/static/js/schooldata";
-
 (function($){
     $(function(){
 
@@ -38,10 +36,6 @@ import { Schooldata } from "web/static/js/schooldata";
 
     }); // end of document ready
 
-    $("#per_page").change(function() {
-     $('#booking_filters').closest("form").submit();
-    });
-
     $('.payment_add_more').click(function() {
       var tr_count = $('.payment-types tbody tr').length;
       var new_tr = $('.payment-types tbody tr:first').clone();
@@ -57,28 +51,5 @@ import { Schooldata } from "web/static/js/schooldata";
       return false;
     });
     
-
-    var student_ids = function(event_element, output_element) {
-        var code = $(event_element).val();
-        if(code != "") {
-            var promise = Schooldata.student_ids(code)
-		    var options = '<option value="">-- Select Student --</option>';
-            promise.done(function( data ) {
-		        $.each(data, function(name, val) {
-			       options += '<option value="' + val + '">' + name + '</option>';
-			    });
-		        $(output_element).html("");
-		        $(output_element).append(options);
-		    });
-        } else {
-            $(output_element).html("");
-            $(output_element).html("<option value=''>-- Select Student --</option>");
-        }
-    }
-    
-    $(".class_id").change(function() {
-	    student_ids(".class_id", ".student_id");
-	})
-
 
   })(jQuery); // end of jQuery name space

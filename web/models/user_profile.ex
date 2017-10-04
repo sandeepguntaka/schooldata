@@ -14,6 +14,7 @@ defmodule Schooldata.UserProfile do
     field :date_of_birth, :utc_datetime
     field :joining_date, :utc_datetime
     field :uid, :integer
+    field :profile_type, :string
      #belongs_to :user, Schooldata.User
     belongs_to :class, Schooldata.Classes
     belongs_to :section, Schooldata.Sections
@@ -25,7 +26,6 @@ defmodule Schooldata.UserProfile do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> IO.inspect
     |> cast(params,
               [:full_name, :roll_number, 
                :father_name, :mother_name, 
@@ -34,4 +34,11 @@ defmodule Schooldata.UserProfile do
     |> validate_required([:full_name, :roll_number, :father_name, :mother_name, 
                           :mobile, :date_of_birth, :joining_date])
   end
+
+  def profile_changeset(struct, params\\ %{}) do
+    struct
+    |> cast(params, [:profile_type, :uid, :full_name])
+    |> unique_constraint(:uid) 
+  end
+
 end

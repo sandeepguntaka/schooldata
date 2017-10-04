@@ -1,0 +1,15 @@
+var csrf_code = document.querySelector("div input[name='_csrf_token']").content;
+var csrf = $(csrf_code).val()
+export var Schooldata = {
+    student_ids: function(class_code){
+	return $.ajax({
+		url: "/student/"+ class_code +"/id",
+		method: "POST",
+		dataType: "json",
+		headers: {
+		    "X-CSRF-TOKEN": csrf,
+		    //                    "_CSRF_TOKEN": csrf
+		},
+	    });
+    }
+}
