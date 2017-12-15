@@ -1,0 +1,430 @@
+<div class="container">
+
+    <div class="row ">
+      <h5 class="center">Add New Admission</h5>
+ 
+       <%= form_for @changeset, admissions_path(@conn, :create), fn f -> %>
+            <div class="row">
+                <%= if f.errors != [] do %>
+                    <div class="alert alert-danger">
+                        <p>Oops, something went wrong! Please check the errors below:</p>
+                    </div>
+                <% end %>
+            </div>
+
+            <div class="stepwizard">
+                <div class="row stepwizard-row setup-panel">
+                    <div class="col s4 stepwizard-step">
+                    <a href="#step-1" type="button" class="btn btn-primary btn-circle">Student Profile</a>
+                    </div>
+
+                    <div class="col s4  stepwizard-step">
+                        <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">Parents Info</a>
+                    </div>
+                    
+                    <div class="col s4  stepwizard-step">
+                        <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">Enclosures</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row setup-content " id="step-1">
+                <div class="col s12 center separator"><h5>Student Details</h5></div>
+          
+                <div class="row">
+                    <div class="input-field col s6 ">
+                        <%= text_input f, :first_name, placeholder: "First Name",  class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :first_name %>
+                    </div>
+
+                    <div class="input-field col s6 ">
+                        <%= text_input f, :last_name, placeholder: "Last Name",  class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :last_name %>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s4">
+                        <b>Gender</b>
+                        <%= radio_button(f, :gender, "Male") %>
+                        <label for="student_profile_gender_male">Male</label>
+
+                        <%= radio_button(f, :gender, "Female") %>
+                        <label for="student_profile_gender_female">Female</label>
+
+                    </div>
+                    <% classes = List.insert_at(Helper.class_list, 0, {" --Select Class-- ", 0}) %>
+                    <div class="col s4">
+                      <%= select f, :class_id, classes  , class: "form-control" %>  
+                      <%= error_tag f, :class_id %>
+                    </div>
+
+                    <div class="col s4">
+                      <%= select f, :medium, ["--Medium--","English", "Telugu"], class: "form-control" %>  
+                      <%= error_tag f, :medium %>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s4">
+                    <div><b>Date Of Birth</b></div>
+                    <div>
+                        <%= date_select f, :date_of_birth, builder: fn b -> %>
+                            <%= b.(:day, []) %>
+                            <%= b.(:month, []) %>
+                            <%= b.(:year, [options: 1980..2025]) %>
+                        <% end %>
+                        <%= error_tag f, :date_of_birth %>
+                    </div></div>                       
+
+                    <div class="input-field col s4 ">
+                        <b>Place Of Birth</b>
+                        <%= text_input f, :birth_place, placeholder: "Place of Birth", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :birth_place %>
+                    </div>
+
+                    <div class="input-field col s4 ">
+                        <b>Blood Group</b>
+                        <%= text_input f, :blood_group, placeholder: "Blood Group", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :blood_group %>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s4 ">
+                        <b>Nationality</b>
+                        <%= text_input f, :nationality, placeholder: "Nationality", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :nationality %>
+                    </div>
+                        <div class="input-field col s4 ">
+                        <b>Religion</b>
+                        <%= text_input f, :religion, placeholder: "Religion", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :religion %>
+                    </div>
+                    <div class="input-field col s4 ">
+                        <b>Caste</b>
+                        <%= text_input f, :caste, placeholder: "Caste", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :caste %>
+                    </div>
+
+
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s4 ">
+                        <b>Mother Tounge</b>
+                        <%= text_input f, :mother_tounge, placeholder: "Mother Tounge", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :mother_tounge %>
+                    </div>
+                    <div class="input-field col s4 ">
+                        <b>Identification Mark 1</b>
+                        <%= text_input f, :id_mark_1, placeholder: "Mark1", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :id_mark_1 %>
+                    </div>
+                    <div class="input-field col s4 ">
+                        <b>Identification Mark 2</b>
+                        <%= text_input f, :id_mark_2, placeholder: "Mark2", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :id_mark_2 %>
+                    </div>
+
+
+                </div>                    
+
+                <div class="row">
+                    <div class="input-field col s6 ">
+                        <b>Aadhar Number</b>
+                        <%= text_input f, :aadhar, placeholder: "Aadhar Number", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :aadhar %>
+                    </div>
+                    <div class="input-field col s6 ">
+                        <b>Passport Number</b>
+                        <%= text_input f, :passport, placeholder: "Passport NUmber", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :passport %>
+                    </div>
+                </div>                    
+
+                <div class="row center separator"><h5>Communication Details</h5></div>
+                        
+                <div class="row">
+                    <div class="input-field col s12 ">
+                        <b>House Number & Street</b>
+                        <%= text_input f, :house_no, placeholder: "H.no", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :house_no %>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s6 ">
+                        <b>Colony</b>
+                        <%= text_input f, :colony, placeholder: "Colony", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :colony %>
+                    </div>
+                    <div class="input-field col s6 ">
+                        <b>City</b>
+                        <%= text_input f, :city, placeholder: "City", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :city %>
+                    </div>
+
+
+                </div>
+
+                <div class="row">
+
+                    <div class="input-field col s6 ">
+                        <b>State</b>
+                        <%= text_input f, :state, placeholder: "State", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :state %>
+                    </div>
+                    <div class="input-field col s6 ">
+                        <b>Pincode</b>
+                        <%= text_input f, :pincode, placeholder: "Pincode", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :pincode %>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s6 ">
+                        <b>Mobile</b>
+                        <%= text_input f, :student_mobile, placeholder: "Mobile", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :student_mobile %>
+                    </div>
+                    <div class="input-field col s6 ">
+                        <b>Email</b>
+                        <%= text_input f, :student_email, placeholder: "Email", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :student_email %>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary nextBtn btn-lg pull-right" type="button">Next</button>
+                    
+                
+            </div>
+
+<!-- -------------    Step 2 -------------------------  -->
+
+            <div class="row setup-content" id="step-2">
+                <div class="row">
+                    <div class="col s12">
+                    <%= select f, :student_living_with, [
+                                                        {" --Student Living With-- ", 0},
+                                                        {"Both Parents" , "Both Parents"},
+                                                        {"Mother", "Mother"},
+                                                        {"Father", "Father"},
+                                                        {"Gardian", "Gardian"}
+                                                        ], class: "form-control" %>  
+                    <%= error_tag f, :student_living_with %>
+                       
+                   </div>
+                </div>
+
+                <div class="col s12 center separator"><h5>Mother Details</h5></div>
+                
+                <div class="row">
+                    <div class="input-field col s4 ">
+                        <b>Mother Name</b>
+                        <%= text_input f, :mother_name, placeholder: "Mother Name", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :mother_name %>
+                    </div>
+                    <div class="input-field col s4 ">
+                        <b>Qualification</b>
+                        <%= text_input f, :mother_qualification, placeholder: "Qualification", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :mother_qualification %>
+                    </div>
+                    <div class="input-field col s4 ">
+                        <b>Profession</b>
+                        <%= text_input f, :mother_profession, placeholder: "Profession", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :mother_profession %>
+                    </div>
+                </div>
+               
+                <div class="row">
+                    <div class="input-field col s4 ">
+                        <b>Name of Organization</b>
+                        <%= text_input f, :mother_working_organization, placeholder: "Organization", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :mother_working_organization %>
+                    </div>
+                    <div class="input-field col s4 ">
+                        <b>Mobile</b>
+                        <%= text_input f, :mother_mobile, placeholder: "mobile", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :mother_mobile %>
+                    </div>
+                    <div class="input-field col s4 ">
+                        <b>Email</b>
+                        <%= text_input f, :mother_email, placeholder: "Email", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :mother_email %>
+                    </div>
+                </div>
+
+
+                <div class="col s12 center separator"><h5>Father Details</h5></div>
+                
+                <div class="row">
+                    <div class="input-field col s4 ">
+                        <b>Father Name</b>
+                        <%= text_input f, :father_name, placeholder: "Father Name", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :father_name %>
+                    </div>
+                    <div class="input-field col s4 ">
+                        <b>Qualification</b>
+                        <%= text_input f, :father_qualification, placeholder: "Qualification", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :father_qualification %>
+                    </div>
+                    <div class="input-field col s4 ">
+                        <b>Profession</b>
+                        <%= text_input f, :father_profession, placeholder: "Profession", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :father_profession %>
+                    </div>
+                </div>
+               
+                <div class="row">
+                    <div class="input-field col s4 ">
+                        <b>Name of Organization</b>
+                        <%= text_input f, :father_working_organization, placeholder: "Organization", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :father_working_organization %>
+                    </div>
+                    <div class="input-field col s4 ">
+                        <b>Mobile</b>
+                        <%= text_input f, :father_mobile, placeholder: "mobile", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :father_mobile %>
+                    </div>
+                    <div class="input-field col s4 ">
+                        <b>Email</b>
+                        <%= text_input f, :father_email, placeholder: "Email", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :father_email %>
+                    </div>
+                </div>
+
+                <div class="col s12 center separator"><h5>Gardian Details</h5></div>
+                
+                <div class="row">
+                    <div class="input-field col s4 ">
+                        <b>Gardian Name</b>
+                        <%= text_input f, :gardian_name, placeholder: "Gardian Name", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :gardian_name %>
+                    </div>
+                    <div class="input-field col s4 ">
+                        <b>Qualification</b>
+                        <%= text_input f, :gardian_qualification, placeholder: "Qualification", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :gardian_qualification %>
+                    </div>
+                    <div class="input-field col s4 ">
+                        <b>Profession</b>
+                        <%= text_input f, :gardian_profession, placeholder: "Profession", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :gardian_profession %>
+                    </div>
+                </div>
+               
+                <div class="row">
+                    <div class="input-field col s4 ">
+                        <b>Name of Organization</b>
+                        <%= text_input f, :gardian_working_organization, placeholder: "Organization", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :gardian_working_organization %>
+                    </div>
+                    <div class="input-field col s4 ">
+                        <b>Mobile</b>
+                        <%= text_input f, :gardian_mobile, placeholder: "mobile", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :gardian_mobile %>
+                    </div>
+                    <div class="input-field col s4 ">
+                        <b>Email</b>
+                        <%= text_input f, :gardian_email, placeholder: "Email", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :gardian_email %>
+                    </div>
+                </div>
+
+
+                <button class="btn btn-primary prevBtn btn-lg pull-left" type="button">Previous</button>
+                <button class="btn btn-primary nextBtn btn-lg pull-right" type="button">Next</button>
+                
+            </div>
+
+<!-- -------------    Step 3 -------------------------  -->
+
+
+            <div class="row setup-content" id="step-3">
+                <div class="col s12 center separator"><h5>Previous Education</h5></div>
+                
+                 <div class="row">
+                    <div class="input-field col s4 ">
+                        <b>School Name</b>
+                        <%= text_input f, :prev_school_name_1, placeholder: "School Name", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :prev_school_name_1 %>
+                    </div>
+                    <div class="input-field col s4 ">
+                        <b>Upto Class</b>
+                        <%= text_input f, :prev_class_upto_1, placeholder: "Class", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :prev_class_upto_1 %>
+                    </div>
+                    <div class="input-field col s4 ">
+                        <b>Year of Completion</b>
+                        <%= text_input f, :prev_completion_year_1, placeholder: "year of completion", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :prev_completion_year_1 %>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s4 ">
+                        <b>School Name</b>
+                        <%= text_input f, :prev_school_name_2, placeholder: "School Name", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :prev_school_name_2 %>
+                    </div>
+                    <div class="input-field col s4 ">
+                        <b>Upto Class</b>
+                        <%= text_input f, :prev_class_upto_2, placeholder: "Class", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :prev_class_upto_2 %>
+                    </div>
+                    <div class="input-field col s4 ">
+                        <b>Year of Completion</b>
+                        <%= text_input f, :prev_completion_year_2, placeholder: "year of completion", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :prev_completion_year_2 %>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s4 ">
+                        <b>School Name</b>
+                        <%= text_input f, :prev_school_name_3, placeholder: "School Name", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :prev_school_name_3 %>
+                    </div>
+                    <div class="input-field col s4 ">
+                        <b>Upto Class</b>
+                        <%= text_input f, :prev_class_upto_3, placeholder: "Class", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :prev_class_upto_3 %>
+                    </div>
+                    <div class="input-field col s4 ">
+                        <b>Year of Completion</b>
+                        <%= text_input f, :prev_completion_year_3, placeholder: "year of completion", class: "form-control, validate", id: "icon_prefix" %>
+                        <%= error_tag f, :prev_completion_year_3 %>
+                    </div>
+                </div>
+
+                <div class="col s12 center separator"><h5>Documents Submitted</h5></div>
+                <div class ="row">
+                    <div class=" col s12 ">
+                      <%= checkbox(f, :tc_submitted) %> 
+                      <label for="student_profile_tc_submitted">Transfer Certificate</label>
+
+                    </div>                 
+                    <div class=" col s12 ">
+                      <%= checkbox(f, :conduct_certificate_submitted) %> 
+                       <label for="student_profile_conduct_certificate_submitted">Conduct Certificate</label>
+                    </div>                 
+
+                </div>
+
+
+                <div class="row">
+                    <div class="col s6">
+                        <button class="btn btn-primary prevBtn btn-lg pull-left" type="button">Previous</button>
+                    </div>
+                        
+                    <div class="col s4">
+                            <%= submit "Save", class: "right btn" %>
+                    </div>                    
+                </div>
+            </div>
+        <% end %>
+    </div>
+</div>

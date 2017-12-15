@@ -9,13 +9,40 @@ defmodule Helper do
     alias Schooldata.UserRoles
     alias Schooldata.Payments 
 
-    def load_user_details(id) do
-      if id do
-       user = Repo.get_by(UserProfile, [uid: id])
-      else 
-       []
+
+  def is_empty(val) do
+    val = if is_bitstring(val), do: String.trim(val), else: val
+    if is_nil(val) || val == "" do
+      true
+    else
+      if is_list(val) do
+        if Enum.empty?(val) do
+          true
+        else
+          false
+        end
+      else
+        if is_map(val) do
+          if Map.keys(val) == []  do
+            true
+          else
+            false
+          end
+        else
+          false
+        end
       end
     end
+  end
+
+    
+  def load_user_details(id) do
+    if id do
+      user = Repo.get_by(UserProfile, [uid: id])
+    else 
+      []
+    end
+  end
 
     def logged_in_roles(current_user) do
       if current_user != nil do
@@ -35,8 +62,14 @@ defmodule Helper do
         
     end
 
-    def get_classes do
-        classes = Repo.all(Classes)
+     def get_classes do
+       classes = Repo.all(Classes)
+     end
+
+    def class_list do
+      query = from(c in Classes, select: {c.id, c.name})
+      classes = Repo.all(query)
+      classes |> Enum.sort |> Enum.map(fn({x, y}) -> {y, x} end )
     end
 
     def get_student_ids(class_code) do
