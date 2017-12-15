@@ -27,6 +27,9 @@ defmodule Schooldata.Router do
     get "/user/:id",  RegistrationController, :profile
     
     resources "/registration",  RegistrationController
+    get "/users/forgotpassword", RegistrationController, :forgotpassword
+    post "/users/forgotpassword", RegistrationController, :forgotPasswordSave
+
     resources "/sessions", SessionController, only: [:new, :create, :delete]
     resources "/profile",  ProfileController
     resources "/results",  ResultsController
