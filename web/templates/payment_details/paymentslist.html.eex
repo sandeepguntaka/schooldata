@@ -1,5 +1,4 @@
-
-<br/><br/>
+<br/>
     <div class="row">
 
        <div class="col s3">
@@ -57,10 +56,10 @@
                     </select>
               </div>
               
-                <div class="form-group"><input type="submit" name="filters" value="Go" 
-                    class="btn btn-primary blue"/></div>
-            </div>
-          <br/>
+                <div class="form-group">
+                  <input type="submit" name="filters" value="Go"  class="btn btn-primary blue"/>
+                </div>
+             </div>
           <table class="striped">
             <thead>
               <tr>
@@ -69,7 +68,7 @@
                   <th>Student Name</th>
                   <th>Fee Type</th>
                   <th>Payment Date</th>
-                    <th>Amount Paid</th>
+                  <th>Amount Paid</th>
                   <th>Status</th>
                   <th>Received By</th>
                   <th>Remarks</th>
@@ -79,14 +78,14 @@
               <%=  for {userpayment, paymentdetails, userprofile, classes, payments} <- @payments do %> 
               <% received = Helper.load_user_details(userpayment.received_id)   %>
                   <tr>
-                      <td><%= userpayment.id %></td>
+                      <td><a href="payments/<%= userpayment.id %>"><%= userpayment.id %></a></td>
                       <td><%= classes.name %></td> 
                       <td><%= userprofile.full_name %> </td>
                       <td><%= payments.payment_name %> </td>
                       <td><%= DateTime.to_date(userpayment.payment_date) %></td>
                       <td><%= paymentdetails.amount_paid %></td> 
                       <td><%= userpayment.status %></td>
-                      <td><%= received.full_name %> 1</td>
+                      <td><%= received.full_name %></td>
                       <td><%= userpayment.comment %></td>
                   </tr>
             <% end %>

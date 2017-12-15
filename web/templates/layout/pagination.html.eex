@@ -11,8 +11,10 @@
   total_pages = Decimal.to_integer(total_pages)
 %>
 
+<!--
 <span style="float:right;">Showing <%= page_start_value%> to <%= page_end_value %> of <%= total %> (<%= total_pages %> Pages)</span>
 <br/>
+-->
 <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>"/>
   <% last_page = if rem(@assigns.total, @assigns.per_page) == 0, do: div(@assigns.total, @assigns.per_page),
      else: div(@assigns.total, @assigns.per_page) + 1 %>
@@ -25,7 +27,7 @@
       <li id="first" class="previous"><a href="<%= @assigns.url %>">&larr; First</a></li>
     <% end %>
     <% per_page_list = [10, 25, 50] %>
-    <select id="per_page" name="per_page" class="form-control pagination-per-page">
+    <!-- <select id="per_page" name="per_page" class="form-control pagination-per-page">
       <%= for i <- per_page_list do %>
         <%= if @assigns.per_page == i do %>
           <option value="<%= i %>" selected><%= i %></option>
@@ -34,6 +36,7 @@
         <%= end %>
       <% end %>
     </select>
+    -->
     <%= if @assigns.current_page == 1 do %>
       <li id="prev" class="disabled"><a href="<%= @assigns.url %>">&larr; Previous</a></li>
     <% else %>

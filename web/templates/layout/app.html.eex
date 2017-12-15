@@ -26,6 +26,7 @@
 
   
   <footer class="page-footer orange">
+  <!--
     <div class="container">
        <div class="row">
            <div class="col s12">
@@ -36,10 +37,9 @@
     </div>
     
      <div class="footer-copyright">
-       <div class="container">
-        @Schooldata 
-       </div>
-     </div>
+    -->
+       <div class="container"> @Schooldata </div>
+     <!-- </div> -->
   </footer>
 
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>

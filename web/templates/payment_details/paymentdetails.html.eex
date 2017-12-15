@@ -1,5 +1,5 @@
 
-<br/><br/>
+<br/>
     <div class="row">
        <div class="col s2">
           <ul class="collection">
@@ -48,30 +48,89 @@
                      <div class="form-group"><input type="submit" name="filters" value="Go" class="btn btn-primary"/></div>
                  </div>
 
+     
+     
+     
                 <table class="striped">
                   <thead>
+                     <tr><th colspan=13 class="center">Fee Structure For All The Classes (2017-18)</th></tr>
                     <tr>
-                        <th>Academic Year</th>
-                        <th>Fee Type</th>
-                        <th>Class</th>
-                        <th>Amount</th>
-                        <th>Installments</th>
-                        <th>Distance(< KM)</th>
+                        <th>Particulars</th>
+                        <th>LKG</th>
+                        <th>UKG</th>
+                        <th>Std - I </th>
+                        <th>Std -II </th>
+                        <th>Std -III</th>
+                        <th>Std -IV</th>
+                        <th>Std -V</th>
+                        <th>Std -VI</th>
+                        <th>Std -VII</th>
+                        <th>Std -VIII</th>
+                        <th>Std -IX</th>
+                        <th>Std - X</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <%=  for payment <- @payments do %> 
                         <tr>
-                           <td><%= payment.acadamic_year %></td>
-                           <td><%= payment.fee_name %></td>
-                           <td><%= payment.class_name %></td>
-                           <td><%= payment.amount %></td>
-                           <td><%= payment.installments %></td>
-                           <td><%= payment.distance %></td>
+                           <td>Academic Fee</td>
+                           <td>12000</td>
+                           <td>12000</td>
+                           <td>12000</td>
+                           <td>13000</td>
+                           <td>13500</td>
+                           <td>14000</td>
+                           <td>14500</td>
+                           <td>15000</td>
+                           <td>15500</td>
+                           <td>16000</td>
+                           <td>17000</td>
+                           <td>18000</td>
                         </tr>
-                  <% end %>
-
-                  
+                        <tr>
+                           <td>Tution Fee</td>
+                           <td>12000</td>
+                           <td>12000</td>
+                           <td>12000</td>
+                           <td>13000</td>
+                           <td>13500</td>
+                           <td>14000</td>
+                           <td>14500</td>
+                           <td>15000</td>
+                           <td>15500</td>
+                           <td>16000</td>
+                           <td>17000</td>
+                           <td>18000</td>
+                        </tr>
+                        <tr>
+                           <td>Maintenance Fee</td>
+                           <td>12000</td>
+                           <td>12000</td>
+                           <td>12000</td>
+                           <td>13000</td>
+                           <td>13500</td>
+                           <td>14000</td>
+                           <td>14500</td>
+                           <td>15000</td>
+                           <td>15500</td>
+                           <td>16000</td>
+                           <td>17000</td>
+                           <td>18000</td>
+                        </tr>
+                       <tr>
+                           <td>Sports Fee</td>
+                           <td>12000</td>
+                           <td>12000</td>
+                           <td>12000</td>
+                           <td>13000</td>
+                           <td>13500</td>
+                           <td>14000</td>
+                           <td>14500</td>
+                           <td>15000</td>
+                           <td>15500</td>
+                           <td>16000</td>
+                           <td>17000</td>
+                           <td>18000</td>
+                        </tr>
                   </tbody>
                 </table>
               </form>

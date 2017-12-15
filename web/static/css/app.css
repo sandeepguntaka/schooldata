@@ -1,4 +1,4 @@
-/* This file is for your main application css. */
+This file is for your main application css.
 .header {
     border-bottom: none;
 }
@@ -250,4 +250,15 @@ p.bill-info{
 .collapsible-body {
     border-bottom: 0px solid #ddd !important;
     padding: 1rem 0rem 0rem 0rem !important;
+}
+.separator{
+    color: #ffffff;
+    background-color: grey;
+}
+.separator h5{
+    font-size: 16px;
+    height: 25px;
+    margin: 0px;
+    text-align: center;
+    padding: 3px;
 }

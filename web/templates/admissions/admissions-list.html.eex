@@ -1,0 +1,78 @@
+<br/>
+  <div class="row">
+    <div class="col s12">
+      <form method="post" action="<%= @assigns.url %>" id="booking_filters" class="form-inline">
+          <input type="hidden" name="_csrf_token" value="<%= get_csrf_token() %>"/>
+          <div class="table-filters">
+            <div class="form-group">
+                <% classes = Helper.get_classes %>
+              <select name="class_id" class="form-control">
+              <option value="0">---Select Class---</option>
+                <%= for class <- classes do %> 
+                  <%= if @filters["class_id"] == Integer.to_string(class.id) do %>
+                      <option value="<%= class.id %>" selected><%= class.name %></option>
+                  <% else %>
+                      <option value="<%= class.id %>" ><%= class.name %></option>
+                  <% end %>
+                <% end %>
+              </select>
+            </div>
+            
+              <div class="form-group">
+                <select name="status" class="form-control">
+                  <option value="0">---Select---</option>
+                  <option value="1" <%= if @filters["status"] == "Open", do: "selected"%> >Open</option>
+                  <option value="2" <%= if @filters["status"] == "Closed", do: "selected"%> >Closed</option>
+                  <option value="3" <%= if @filters["status"] == "Rejected", do: "selected"%> >Rejected</option>
+                  </select>
+            </div>
+            
+              <div class="form-group">
+                <input type="submit" name="filters" value="Go"  class="btn btn-primary blue"/>
+              </div>
+            </div>
+        <table class="striped">
+          <thead>
+        <tr><th colspan=6 class="center">Admissions (2017-18)</th>
+        <th><a href="/admissions/new" class="right btn btn-floating btn-small">
+              <i class="material-icons">add</i>
+            </a>
+        
+            <a href="/admissions-import" class="right btn btn-floating btn-small">
+              <i class="material-icons">import_export</i>
+            </a>
+        </th> 
+        </tr>
+            <tr>
+                <th>Admission No</th>
+                <th>Student Name</th>
+                <th>Class</th>
+                <th>Admission Date</th>
+                <th>Status</th>
+                <th>Address</th>
+                <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <%=  for {admissions, class } <- @admissions do %> 
+                <tr>
+                    <td><%= admissions.id %></td>
+                    <td><%= admissions.first_name <> " " <>admissions.last_name  %></td> 
+                    <td><%= class.name %> </td>
+                    <td><%= admissions.inserted_at %></td>
+                    <td><%= admissions.admission_status %> </td>
+                    <td><%= "#{admissions.house_no}  #{admissions.colony}" %> <br/>
+                        <%= "#{admissions.city} #{admissions.state}" %></td> 
+                    <td>Confirm, Reject</td>
+                </tr>
+          <% end %>
+
+          
+          </tbody>
+        </table>
+      </form>
+      <%= render Schooldata.LayoutView, "pagination.html", assigns: @assigns %> 
+      </div>
+
+    
+  </div>

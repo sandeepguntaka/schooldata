@@ -3,67 +3,56 @@
  
   <h4>Create New Account</h4>
     <%= form_for @changeset, registration_path(@conn, :create), fn f -> %>
-
- 
-    
-   <div class="row">
-   <%= if f.errors != [] do %>
-    <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below:</p>
-    </div>
-  <% end %>
+      <div class="row">
+        <%= if f.errors != [] do %>
+          <div class="alert alert-danger">
+            <p>Oops, something went wrong! Please check the errors below:</p>
+          </div>
+        <% end %>
    
-   <div class="row">
-      <div class="col s1 offset-s3">
-        <i class="material-icons small">supervisor_account</i>
-      </div>
-      <div class="col s3">
-        <select name='profile_type' class='profile_type form-control'>
-          <option value="0">-- Select Profile Type --</option>
-          <option value="student">Student</option>
-          <option value="staff">Staff</option>
-        </select>  
-      </div>
-    </div>
+        <div class="row">
+          <div class="col s1 offset-s3">
+            <i class="material-icons small">supervisor_account</i>
+          </div>
+         <div class="col s3">
+            <select name='profile_type' class='profile_type form-control'>
+              <option value="0">-- Select Profile Type --</option>
+              <option value="student">Student</option>
+              <option value="staff">Staff</option>
+            </select>  
+          </div>
+        </div>
 
-      <div class="input-field col s6 offset-s3">
-          <i class="material-icons prefix">account_circle</i>
-           <%= text_input f, :name, placeholder: "Full Name", class: "form-control, validate", id: "icon_prefix" %>
-           <%= error_tag f, :name %>
-      </div>
+        <div class="input-field col s6 offset-s3">
+            <i class="material-icons prefix">account_circle</i>
+            <%= text_input f, :name, placeholder: "Full Name", class: "form-control, validate", id: "icon_prefix" %>
+            <%= error_tag f, :name %>
+        </div>
       
-      <div class="input-field col s6 offset-s3">
-          <i class="material-icons prefix">perm_identity</i>
-           <%= text_input f, :username, placeholder: "User Name", class: "form-control, validate" %>
-           <%= error_tag f, :username %>
-      </div>
+        <div class="input-field col s6 offset-s3">
+            <i class="material-icons prefix">perm_identity</i>
+            <%= text_input f, :username, placeholder: "User Name", class: "form-control, validate" %>
+            <%= error_tag f, :username %>
+        </div>
       
-       <div class="input-field col s6 offset-s3">
-          <i class="material-icons prefix">visibility_off</i>
-           <%= password_input f, :password, placeholder: "Password", class: "form-control, validate" %>
-           <%= error_tag f, :password %>
+        <div class="input-field col s6 offset-s3">
+            <i class="material-icons prefix">visibility_off</i>
+            <%= password_input f, :password, placeholder: "Password", class: "form-control, validate" %>
+            <%= error_tag f, :password %>
+        </div>
+
+        <div class="input-field col s6 offset-s3">
+            <i class="material-icons prefix">visibility_off</i>
+            <%= password_input f, :hash_password, placeholder: "Confirm Password", class: "form-control, validate" %>
+            <%= error_tag f, :hash_password %>
+        </div>
+
+        <div class="container row">  
+              <div class="input-field col s6 offset-s6">
+                <%= submit "Save", class: "btn btn-primary" %>
+              </div>
+        </div>
       </div>
-
-      <div class="input-field col s6 offset-s3">
-          <i class="material-icons prefix">visibility_off</i>
-           <%= password_input f, :hash_password, placeholder: "Confirm Password", class: "form-control, validate" %>
-           <%= error_tag f, :hash_password %>
-      </div>
-
-    <div class="container row">  
-          <div class="input-field col s6 offset-s6">
-             <%= submit "Save", class: "btn btn-primary" %>
-           </div>
-    </div>
-    </div>
-
-
-
-
-   <% end %>
+    <% end %>
   </div>
 </div>
-
-
-
-

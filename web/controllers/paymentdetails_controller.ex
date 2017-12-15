@@ -6,9 +6,11 @@ defmodule Schooldata.PaymentDetailsController do
     plug Schooldata.Plugs.RequireAuth when action in [:index, :list]
     
     def index(conn, params) do
-      {payments, assigns} = PaymentsHelper.get_payment_types(conn, params)
+     # {payments, assigns} = PaymentsHelper.get_payment_types(conn, params)
+      assigns = %{}
+      payments = %{}
       assigns = Map.put(assigns, :url, payment_details_path(conn, :index))
-      render conn, "paymentdetails.html" , assigns: assigns, payments: payments, filters: params
+      render conn, "paymentdetails.html" , filters: params, assigns: assigns, payments: payments
     end
 
     def list(conn, params) do

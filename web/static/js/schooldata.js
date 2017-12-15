@@ -12,3 +12,4 @@ export var Schooldata = {
 	    });
     }
 }
+

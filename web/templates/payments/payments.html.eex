@@ -26,7 +26,7 @@
      </div>
 
      <div class="row center">
-          <div class="col s2 collection ceil">Admissions</div>
+          <div class="col s2 collection ceil"><a href="<%= admissions_path(@conn, :index) %>">Admissions</a></div>
           <div class="col s2 collection sgreen">Student Profiles</div>
           <div class="col s2 collection ered">Exams/Results</div>
           <div class="col s2 collection fdrab">Attendence/Holidays</div>
