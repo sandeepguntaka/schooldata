@@ -4,7 +4,7 @@
       <ul class="right hide-on-med-and-down">
         <%= if @current_user do %>
          <li>Welcome  <%= @current_user.username %>!</li>
-         <li><%= link "Sign out", to: session_path(@conn, :delete, @current_user), method: "delete" %> </li>
+         <li><%= link "Sign out", to: session_path(@conn, :delete), method: "delete" %> </li>
         <% else %>
   	     <li><%= link "Register", to: registration_path(@conn, :new) %></li>
          <li><%= link "Sign in", to: session_path(@conn, :new) %></li>

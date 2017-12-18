@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="row center card ">
+
+  <h4>Sections</h4>
+
+  <%= form_for @section, section_path(@conn, :create), fn f -> %>
+   <div class="row">
+   <%= if f.errors != [] do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below:</p>
+    </div>
+  <% end %>
+      <div class="input-field col s6 offset-s3">
+         <label>Section Name</label>
+         <%= text_input f, :name, placeholder: "Name", class: "form-control, validate", id: "icon_prefix" %>
+         <%= error_tag f, :name %>
+      </div>
+
+      <div class="container row">
+                    <div class="input-field col s6 offset-s6">
+                      <%= submit "Save", class: "btn btn-primary" %>
+                    </div>
+              </div>
+
+    <% end %>
+  </div>
+  </div>
+</div>
+
+

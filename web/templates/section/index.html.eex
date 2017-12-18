@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="row center card ">
+
+  <h4>Sections</h4>
+  <div class="col s3">
+<%= render Schooldata.SharedView, "sidebar.html" %>
+        </div>
+        <div class="col s6">
+<table class="striped">
+            <thead>
+              <tr>
+                  <th>Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              <%=  for section <- @sections do %>
+
+                  <tr>
+                      <td><%= section.name %></td>
+
+                  </tr>
+            <% end %>
+
+            
+            </tbody>
+          </table>
+          </div>
+          </div>
+          </div>

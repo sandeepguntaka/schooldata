@@ -1,0 +1,8 @@
+<ul class="card collection">
+    <li class="collection-item">Slip Tests</li>
+    <li class="collection-item">Weekly Exams</li>
+    <li class="collection-item">Quaterly</li>
+    <li class="collection-item">Half Yearly</li>
+    <li class="collection-item">Pre Final</li>
+    <li class="collection-item">Annual</li>
+</ul>

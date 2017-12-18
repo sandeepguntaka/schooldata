@@ -1,0 +1,55 @@
+<div class="container">
+  <div class="row center card ">
+
+  <h4>Examinations</h4>
+
+  <%= form_for @exam, examination_path(@conn, :create), fn f -> %>
+   <div class="row">
+   <%= if f.errors != [] do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below:</p>
+    </div>
+  <% end %>
+      <div class="input-field col s6 offset-s3">
+         <label>Total Marks</label>
+         <%= text_input f, :total_marks, placeholder: "Total Marks", class: "form-control, validate", id: "icon_prefix" %>
+         <%= error_tag f, :total_marks %>
+      </div>
+
+            <div class="input-field col s6 offset-s3">
+                <label>Exam Date</label>
+                  <%= date_select f, :exam_date, builder: fn b -> %>
+                   <%= b.(:day, []) %>
+                   <%= b.(:month, []) %>
+                   <%= b.(:year, [options: 1980..2025]) %>
+                <% end %>
+                 <%= error_tag f, :exam_date %>
+            </div>
+      <div class="input-field col s6 offset-s3">
+         <label>Minimum Marks</label>
+         <%= text_input f, :passing_marks, placeholder: "Minimum Marks", class: "form-control, validate", id: "icon_prefix" %>
+         <%= error_tag f, :passing_marks %>
+      </div>
+
+            <div class="input-field col s6 offset-s3">
+                <label>Class</label>
+                <%= select f, :class_id, @classes, class: "form-control" %>
+                <%= error_tag f, :class_id %>
+            </div>
+            <div class="input-field col s6 offset-s3">
+                <label>Section</label>
+                <%= select f, :section_id, @sections, class: "form-control" %>
+                <%= error_tag f, :section_id %>
+            </div>
+      <div class="container row">
+                    <div class="input-field col s6 offset-s6">
+                      <%= submit "Save", class: "btn btn-primary" %>
+                    </div>
+              </div>
+
+    <% end %>
+  </div>
+  </div>
+</div>
+
+

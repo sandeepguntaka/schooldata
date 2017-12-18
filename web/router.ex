@@ -30,7 +30,10 @@ defmodule Schooldata.Router do
     get "/users/forgotpassword", RegistrationController, :forgotpassword
     post "/users/forgotpassword", RegistrationController, :forgotPasswordSave
 
+    get "/logout", SessionController, :delete
     resources "/sessions", SessionController, only: [:new, :create, :delete]
+    resources "/examinations", ExaminationController
+    resources "/sections", SectionController
     resources "/profile",  ProfileController
     resources "/results",  ResultsController
     resources "/attendence",  AttendenceController
@@ -46,8 +49,9 @@ defmodule Schooldata.Router do
     post "/student/:student_id/name", AjaxController, :student_name_json
     
 
-    get "/admissions", AdmissionsController, :index
-    post "/admissions", AdmissionsController, :index
+    resources "/admissions", AdmissionsController
+#    get "/admissions/new", AdmissionsController, :new
+#    post "/admissions", AdmissionsController, :create
     get "/admissions-import", AdmissionsController, :import
     post "/admissions-import", AdmissionsController, :import
     #get "/admissions", AdmissionsController, :list
