@@ -1,7 +1,6 @@
 defmodule Schooldata.PaymentsController do
     use Schooldata.Web, :controller
     
-    alias Schooldata.UserProfile
     alias Schooldata.User
     alias Schooldata.UserPayments
     alias Schooldata.UserPaymentsDetails
@@ -68,7 +67,7 @@ defmodule Schooldata.PaymentsController do
 
       amounts = Enum.filter(amounts, fn {_, value} ->  Integer.parse(value) != :error end) |> Map.new
       payments_sel = payments_selected(amounts, payments)
-      total_amount = Enum.reduce(payments_sel, 0, fn({key, val}, acc) -> String.to_integer(val) + acc end)    
+      total_amount = Enum.reduce(payments_sel, 0, fn({_, val}, acc) -> String.to_integer(val) + acc end)
       today_date = NaiveDateTime.utc_now
       
       all_payments = %{"payment_mode" => payment_mode, "user_id" => user,
@@ -81,8 +80,8 @@ defmodule Schooldata.PaymentsController do
     end
 
     def payments_selected(amounts, payments) do
-      payments = Enum.reduce(payments, %{}, fn({key, val}, acc) ->
-         val = if val != "0" and not(amounts[key] in ["", nil]) do  
+      payments = Enum.reduce(_, %{}, fn({key, val}, acc) ->
+         if val != "0" and not(amounts[key] in ["", nil]) do
            Map.update(acc, String.to_integer(val), amounts[key], fn(prev_val) -> 
              Integer.to_string(String.to_integer("#{amounts[key]}") + String.to_integer("#{prev_val}"))     
            end)

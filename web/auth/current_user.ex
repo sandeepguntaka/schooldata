@@ -2,9 +2,6 @@ defmodule Schooldata.CurrentUser do
     import Plug.Conn
     import Guardian.Plug
   
-    alias Schooldata.Repo
-    alias Schooldata.User
-    alias Schooldata.UserProfile
 
     def init(opts), do: opts
   

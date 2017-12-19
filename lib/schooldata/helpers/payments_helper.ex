@@ -3,7 +3,6 @@ defmodule PaymentsHelper do
     #import Plug.Conn
     import Ecto.Query 
 
-    alias Schooldata.PaymentDetails
     alias Schooldata.UserProfile
     alias Schooldata.Classes
     alias Schooldata.Payments
@@ -22,7 +21,7 @@ defmodule PaymentsHelper do
       {payments, payments_list} 
     end
 
-    def get_payment_types(_conn, data \\ %{}) do
+    def get_payment_types(_conn, _ \\ %{}) do
       {}
     end
 
@@ -80,8 +79,7 @@ defmodule PaymentsHelper do
            select: {sum(upyd.amount_paid), p.payment_name, true}
          )
       end
-      payments = Repo.all(query)    
-
+      Repo.all(query)
     end
  
 end

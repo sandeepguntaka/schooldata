@@ -1,15 +1,9 @@
 defmodule AdmissionsHelper do
     alias Schooldata.Repo
-    import Plug.Conn
-    import Ecto.Query 
+    import Ecto.Query
 
     alias Schooldata.Classes
-    alias Schooldata.UserProfile
     alias Schooldata.StudentProfile
-    alias Schooldata.UserRoles
-    alias Schooldata.Payments 
-    alias Schooldata.UserPayments
-    alias Schooldata.UserPaymentsDetails
 
   def get_admissions_list(data \\ %{}) do
       query = from(sp in StudentProfile, 

@@ -2,7 +2,6 @@ defmodule Schooldata.CurrentRoles do
     import Plug.Conn
     import Guardian.Plug
   
-    alias Schooldata.Repo
 
     def init(opts), do: opts
   
