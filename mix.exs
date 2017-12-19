@@ -20,8 +20,8 @@ defmodule Schooldata.Mixfile do
   def application do
     [
       mod: {Schooldata, []},
-      extra_applications: [:logger, :comeonin],
-      applications: [:timex]
+      extra_applications: [:logger, :comeonin]
+#      applications: [:timex]
     ]
   end
 
