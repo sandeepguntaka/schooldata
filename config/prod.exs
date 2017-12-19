@@ -15,7 +15,7 @@ config :schooldata, Schooldata.Endpoint,
   load_from_system_env: true,
   url: [
    scheme: "https",
-   host: "cryptic-sea-40056.herokuapp.com",
+   host: "0.0.0.0",
    port: 443,
   ],
   force_ssl: [
