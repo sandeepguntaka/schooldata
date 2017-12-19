@@ -14,9 +14,9 @@ use Mix.Config
 config :schooldata, Schooldata.Endpoint,
   load_from_system_env: true,
   url: [
-   scheme: "http",
+   scheme: "https",
    host: "cryptic-sea-40056.herokuapp.com",
-   port: 80,
+   port: 443,
   ],
   force_ssl: [
    rewrite_on: [:x_forwarded_proto]
