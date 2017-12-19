@@ -80,7 +80,7 @@ defmodule Schooldata.PaymentsController do
     end
 
     def payments_selected(amounts, payments) do
-      payments = Enum.reduce(_, %{}, fn({key, val}, acc) ->
+      Enum.reduce(payments, %{}, fn({key, val}, acc) ->
          if val != "0" and not(amounts[key] in ["", nil]) do
            Map.update(acc, String.to_integer(val), amounts[key], fn(prev_val) -> 
              Integer.to_string(String.to_integer("#{amounts[key]}") + String.to_integer("#{prev_val}"))     

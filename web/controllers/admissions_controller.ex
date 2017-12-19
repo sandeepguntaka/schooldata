@@ -97,7 +97,7 @@ defmodule Schooldata.AdmissionsController do
                     end
 
                       if class_id != nil , do: user = Map.put(user, "class_id", class_id)                     
-                      if ok == :ok , do: user = Map.put(user, "date_of_birth", dob)
+                      user = Map.put(user, "date_of_birth", dob)
                       
                       changeset = %StudentProfile{} |> StudentProfile.changeset(user)
                       
