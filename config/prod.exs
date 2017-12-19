@@ -17,7 +17,7 @@ config :schooldata,
        url: [
          scheme: "https",
          host: "cryptic-sea-40056.herokuapp.com",
-         port: {:system, "PORT"},
+         port: 50000,
        ],
        force_ssl: [
          rewrite_on: [:x_forwarded_proto]
