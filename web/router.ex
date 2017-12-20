@@ -30,7 +30,7 @@ defmodule Schooldata.Router do
     get "/users/forgotpassword", RegistrationController, :forgotpassword
     post "/users/forgotpassword", RegistrationController, :forgotPasswordSave
 
-#    get "/logout", SessionController, :delete
+    get "/logout", SessionController, :delete
     resources "/sessions", SessionController, only: [:new, :create, :delete]
     resources "/examinations", ExaminationController
     resources "/sections", SectionController
