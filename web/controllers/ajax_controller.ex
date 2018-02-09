@@ -1,9 +1,7 @@
 defmodule Schooldata.AjaxController do
     use Schooldata.Web, :controller
     
-    alias Schooldata.UserProfile
-    alias Schooldata.User
- 
+
     def student_id_json(conn, %{"class_id" => class_id}) do 
       students = Helper.get_student_ids(class_id)
       json conn, Enum.into(students, %{})

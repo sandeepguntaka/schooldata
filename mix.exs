@@ -21,6 +21,7 @@ defmodule Schooldata.Mixfile do
     [
       mod: {Schooldata, []},
       extra_applications: [:logger, :comeonin]
+#      applications: [:timex]
     ]
   end
 
@@ -43,8 +44,8 @@ defmodule Schooldata.Mixfile do
       {:cowboy, "~> 1.0"},
       {:comeonin, "~> 2.5"},
       {:guardian, "~> 0.12.0"},
-      {:csv, "~> 1.2.3"},
-      {:timex, "~> 3.1"}
+      {:timex, "~> 3.1"},
+      {:csv, "~> 2.0.0"}
     ]
   end
 

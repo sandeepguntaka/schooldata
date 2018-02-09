@@ -1,7 +1,6 @@
 defmodule Helper do
     alias Schooldata.Repo
-    import Plug.Conn
-    import Ecto.Query 
+    import Ecto.Query
 
     alias Schooldata.Classes
     alias Schooldata.UserProfile
@@ -38,7 +37,7 @@ defmodule Helper do
     
   def load_user_details(id) do
     if id do
-      user = Repo.get_by(UserProfile, [uid: id])
+      Repo.get_by(UserProfile, [uid: id])
     else 
       []
     end
@@ -49,7 +48,7 @@ defmodule Helper do
         #user = String.to_integer(current_user.id);
         query = from ur in UserRoles,
           select: ur.rid, where: [uid: ^current_user.id]
-        roles = Repo.all(query)
+        Repo.all(query)
       end
     end
 
@@ -63,7 +62,7 @@ defmodule Helper do
     end
 
      def get_classes do
-       classes = Repo.all(Classes)
+       Repo.all(Classes)
      end
 
     def class_list do
@@ -78,13 +77,13 @@ defmodule Helper do
                    where: up.class_id == ^String.to_integer(class_code)
                   )
         classes = Repo.all(query)
-        class_list = Enum.reduce(classes, [], fn(class, acc) ->
+        Enum.reduce(classes, [], fn(class, acc) ->
           [{class[:name], class[:uid]} | acc] 
         end)
     end
 
     def get_payment_types do
-        payments = Repo.all(Payments)
+        Repo.all(Payments)
     end
 
     def get_sections do

@@ -26,7 +26,6 @@ defmodule Schooldata.ProfileController do
         %{"joining_date" => joining_date, 
           "date_of_birth" => date_of_birth,
           "mobile" => mobile,
-          "roll_number" => roll_number,
           "class_id" => class_id,
           "section_id" => section_id} = user_profile
         { _ , joindate } = NaiveDateTime.new(String.to_integer(joining_date["year"]),

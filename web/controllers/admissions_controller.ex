@@ -40,7 +40,7 @@ defmodule Schooldata.AdmissionsController do
       changeset = %StudentProfile{} |> StudentProfile.changeset(student_profile)
     
       case Repo.insert(changeset) do
-        {:ok, student_profile} ->
+        {:ok, _} ->
           conn
             |> put_flash(:info, "Admission created Successfully!")
             |> redirect(to: "/")
@@ -71,13 +71,13 @@ defmodule Schooldata.AdmissionsController do
             dest = Path.absname("uploads/admissions/#{Date.utc_today |> to_string}#{extension}")
             case File.cp(upload.path, dest) do
               :ok ->
-               errors =  upload.path
+               upload.path
                   |> File.stream!()
                   |> Stream.drop(1)
                   |> CSV.decode(headers: ["sno", "first_name", "last_name", "gender", "class_id", "medium",
                          "date_of_birth", "place_of_birth", "blood_group", "nationality", "religion", "caste", "student_living_with"])
                   |> Enum.flat_map(fn(user) ->
-                      { ok , dob} = Timex.parse(user["date_of_birth"] , "{D}/{M}/{YYYY}")
+                      { _, dob} = Timex.parse(user["date_of_birth"] , "{D}/{M}/{YYYY}")
                       user = Map.merge(user, %{"first_name" => String.capitalize(user["first_name"]), 
                                   "last_name" => String.capitalize(user["last_name"]),
                                   "gender" => String.capitalize(user["gender"]),
@@ -85,11 +85,11 @@ defmodule Schooldata.AdmissionsController do
 
                     if !Helper.is_empty(user["class_id"]) do
                       if String.length(user["class_id"]) > 2 do
-                        class = Enum.find(classes, fn({key, value}) -> 
+                        class = Enum.find(classes, fn({key, _}) ->
                                   String.capitalize(key) == String.capitalize(user["class_id"]) 
                             end)
                       else
-                        class = Enum.find(classes, fn({key, value}) -> 
+                        class = Enum.find(classes, fn({_, value}) ->
                                   value == String.to_integer(user["class_id"]) 
                             end)
                       end
@@ -97,11 +97,11 @@ defmodule Schooldata.AdmissionsController do
                     end
 
                       if class_id != nil , do: user = Map.put(user, "class_id", class_id)                     
-                      if ok = :ok , do: user = Map.put(user, "date_of_birth", dob)
+                      user = Map.put(user, "date_of_birth", dob)
                       
                       changeset = %StudentProfile{} |> StudentProfile.changeset(user)
                       
-                      errors = if changeset.errors == [] do
+                      if changeset.errors == [] do
                         Repo.insert(changeset) 
                         errors
                       else

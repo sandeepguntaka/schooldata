@@ -29,7 +29,7 @@ defmodule Schooldata.RegistrationController do
                             |> UserProfile.profile_changeset(profile)
 
         case Repo.insert(profile_changeset) do
-          {:error, profile_changeset} ->
+          {:error, _} ->
             conn
             |> put_flash(:info, "Unable to create account")
             |> render("new.html", changeset: changeset)
@@ -67,13 +67,13 @@ defmodule Schooldata.RegistrationController do
     changeset = User.registration_changeset(xyz, %{password: user["password"], hash_password: user["hash_password"]})
 
     case Repo.update(changeset) do
-      {:ok, valid} ->
+      {:ok, _} ->
         conn
         |> put_flash(:info, "Password Updated")
         |> redirect(to: "/")
       {:error, changeset} ->
         conn
-#        |> put_flash(:error, 'Unable to update Password')
+        |> put_flash(:error, 'Unable to update Password')
         |> render "forgotpwd.html", changeset: changeset
     end
   end
