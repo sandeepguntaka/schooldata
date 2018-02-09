@@ -42,7 +42,9 @@ defmodule Schooldata.Mixfile do
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
       {:comeonin, "~> 2.5"},
-      {:guardian, "~> 0.12.0"}
+      {:guardian, "~> 0.12.0"},
+      {:csv, "~> 1.2.3"},
+      {:timex, "~> 3.1"}
     ]
   end
 
